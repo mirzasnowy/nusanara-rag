@@ -1,0 +1,55 @@
+# Environment files — JANGAN PERNAH di-commit!
+.env
+.env.local
+.env.production
+.env.*.local
+backend/.env
+
+# MCP config (bisa berisi password)
+.mcp.json
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+venv/
+env/
+ENV/
+*.egg-info/
+dist/
+build/
+.eggs/
+.mypy_cache/
+.pytest_cache/
+htmlcov/
+.coverage
+
+# Node.js / Frontend
+node_modules/
+.next/
+out/
+.vercel/
+*.tsbuildinfo
+next-env.d.ts
+
+# Data files — bisa besar dan berisi data sensitif
+data/*.csv
+data/*.sql
+data/*.sql.gz
+data/*.json
+
+# Logs
+*.log
+logs/
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/settings.json
+.idea/
+*.swp
+*.swo

@@ -1,0 +1,41 @@
+query_id,cluster_target,config,top5_retrieved,P@1,P@3,P@5,MRR
+q01,"Teknologi, Analisis Data",Tanpa_Reranking,Business Intelligence Developer (Multifinance Industry) | Business Intelligence Developer - Multifinance Industry | Business Development | Data Analyst | Data Analyst/Data Scientist/Data Engineer/AI Engineer,1.0,0.6666666666666666,0.8,1.0
+q01,"Teknologi, Analisis Data",Dengan_Reranking,Data Analyst | Business Development | Data Analyst/Data Scientist/Data Engineer/AI Engineer | Business Intelligence Developer (Multifinance Industry) | Business Intelligence Developer - Multifinance Industry,1.0,0.6666666666666666,0.8,1.0
+q02,Analisis Data,Tanpa_Reranking,Data Analyst | Business Intelligence & Strategic Data Analyst | Business Intelligence | Data Intelligence Analyst | Data Analyst,1.0,1.0,1.0,1.0
+q02,Analisis Data,Dengan_Reranking,Data Analyst | Business Intelligence & Strategic Data Analyst | Business Intelligence | Data Intelligence Analyst | Data Analyst,1.0,1.0,1.0,1.0
+q03,Teknologi,Tanpa_Reranking,Web Developer | Web Developer | Web Developer | Web Developer | Web Developer,1.0,1.0,1.0,1.0
+q03,Teknologi,Dengan_Reranking,Web Developer | Web Developer | Web Developer | Web Developer | Web Developer,1.0,1.0,1.0,1.0
+q04,Desain & Kreatif,Tanpa_Reranking,Freelance Graphic Designer | Graphic Designer | Graphic Designer | Graphic Designer | Graphic Designer,1.0,1.0,1.0,1.0
+q04,Desain & Kreatif,Dengan_Reranking,Freelance Graphic Designer | Graphic Designer | Graphic Designer | Graphic Designer | Graphic Designer,1.0,1.0,1.0,1.0
+q05,Pemasaran Digital,Tanpa_Reranking,Content Marketing Specialist | Social Media Specialist | Social Media Specialist | Social Media Specialist | SOCIAL MEDIA SPECIALIST,0.0,0.6666666666666666,0.6,0.5
+q05,Pemasaran Digital,Dengan_Reranking,Content Marketing Specialist | Social Media Specialist | Social Media Specialist | Social Media Specialist | SOCIAL MEDIA SPECIALIST,0.0,0.6666666666666666,0.6,0.5
+q06,Bisnis & Administrasi,Tanpa_Reranking,Project Manager | Project Manager | Project Manager | Project Manager | Project Manager,1.0,1.0,1.0,1.0
+q06,Bisnis & Administrasi,Dengan_Reranking,Project Manager | Project Manager | Project Manager | Project Manager | Project Manager,1.0,1.0,1.0,1.0
+q07,Desain & Kreatif,Tanpa_Reranking,UI/UX Designer | UI/UX Designer | UI/UX Desainer | Internship UI/UX Designer | UI/UX Designer,1.0,0.6666666666666666,0.6,1.0
+q07,Desain & Kreatif,Dengan_Reranking,UI/UX Designer | UI/UX Designer | UI/UX Desainer | Internship UI/UX Designer | UI/UX Designer,1.0,0.6666666666666666,0.6,1.0
+q08,Pemasaran Digital,Tanpa_Reranking,Content Marketing Specialist | Senior SEO Specialist | SEO Specialist | SEO Content Specialist | SEO Specialist,0.0,0.3333333333333333,0.4,0.3333333333333333
+q08,Pemasaran Digital,Dengan_Reranking,Senior SEO Specialist | SEO Specialist | SEO Content Specialist | SEO Specialist | Content Marketing Specialist,0.0,0.3333333333333333,0.4,0.5
+q09,Teknologi,Tanpa_Reranking,Software/Web Developer | Software Engineer | Software Engineer (Fullstack) | Software Engineer | Software Engineer - Frontend,1.0,0.6666666666666666,0.6,1.0
+q09,Teknologi,Dengan_Reranking,Software/Web Developer | Software Engineer | Software Engineer (Fullstack) | Software Engineer | Software Engineer - Frontend,1.0,0.6666666666666666,0.6,1.0
+q10,Analisis Data,Tanpa_Reranking,Business Intelligence & Strategic Data Analyst | Business Intelligence Engineer (Multifinance Industry) | Business Intelligence | Data Analyst | Business Intelligence,1.0,1.0,1.0,1.0
+q10,Analisis Data,Dengan_Reranking,Business Intelligence & Strategic Data Analyst | Business Intelligence | Data Analyst | Business Intelligence | Business Intelligence Engineer (Multifinance Industry),1.0,1.0,1.0,1.0
+q11,Sales & Customer Service,Tanpa_Reranking,Business Development Executive | Business Development Executive | Business Development Executive | Business Development Executive | Business Development Executive,0.0,0.0,0.0,0.0
+q11,Sales & Customer Service,Dengan_Reranking,Business Development Executive | Business Development Executive | Business Development Executive | Business Development Executive | Business Development Executive,0.0,0.0,0.0,0.0
+q12,Sales & Customer Service,Tanpa_Reranking,Admin Customer Service ( CS ) | Customer Service/Call Center | CALL CENTER | Customer service online | Sales Counter,1.0,0.6666666666666666,0.6,1.0
+q12,Sales & Customer Service,Dengan_Reranking,Admin Customer Service ( CS ) | Customer Service/Call Center | Customer service online | CALL CENTER | Sales Counter,1.0,1.0,0.6,1.0
+q13,Finance & Accounting,Tanpa_Reranking,"Internal Auditor | Finance Accounting Tax Staff | Staff Finance Accounting Tax | Finance, Accounting & Tax Staff | Staff Finance Accounting Tax",1.0,0.3333333333333333,0.2,1.0
+q13,Finance & Accounting,Dengan_Reranking,"Internal Auditor | Finance Accounting Tax Staff | Staff Finance Accounting Tax | Finance, Accounting & Tax Staff | Staff Finance Accounting Tax",1.0,0.3333333333333333,0.2,1.0
+q14,Finance & Accounting,Tanpa_Reranking,Financial Analyst | Finance Analyst | Business Partner Finance Analyst | Corporate Finance Analyst | Internal Auditor,1.0,1.0,0.8,1.0
+q14,Finance & Accounting,Dengan_Reranking,Financial Analyst | Finance Analyst | Business Partner Finance Analyst | Corporate Finance Analyst | Internal Auditor,1.0,1.0,0.8,1.0
+q15,Education & Training,Tanpa_Reranking,Guru PAUD | Kindergarten Teacher | Guru Agama Buddha | Trainer | trainer | Tutor Matematika,0.0,0.3333333333333333,0.6,0.3333333333333333
+q15,Education & Training,Dengan_Reranking,Trainer | trainer | Guru PAUD | Kindergarten Teacher | Guru Agama Buddha | Tutor Matematika,1.0,0.6666666666666666,0.6,1.0
+q16,Education & Training,Tanpa_Reranking,Guru Les Privat | PRIVATE TUTOR | Guru Tutor Les Bimbel Matematika | TUTOR / GURU BAHASA INGGRIS SEKOLAH DASAR (SD) | Tutor Matematika,1.0,0.6666666666666666,0.6,1.0
+q16,Education & Training,Dengan_Reranking,PRIVATE TUTOR | Guru Les Privat | Guru Tutor Les Bimbel Matematika | TUTOR / GURU BAHASA INGGRIS SEKOLAH DASAR (SD) | Tutor Matematika,1.0,0.6666666666666666,0.6,1.0
+q17,Analisis Data,Tanpa_Reranking,Data Analyst/Data Scientist/Data Engineer/AI Engineer | Data Analyst | DATA ANALYST & MONITORING | Data Analyst | Data Analyst,1.0,1.0,1.0,1.0
+q17,Analisis Data,Dengan_Reranking,Data Analyst/Data Scientist/Data Engineer/AI Engineer | Data Analyst | DATA ANALYST & MONITORING | Data Analyst | Data Analyst,1.0,1.0,1.0,1.0
+q18,Teknologi,Tanpa_Reranking,Web Developer (PHP Laravel) | Software/Web Developer | Web Developer | Web Developer | Web Developer,1.0,1.0,1.0,1.0
+q18,Teknologi,Dengan_Reranking,Web Developer (PHP Laravel) | Software/Web Developer | Web Developer | Web Developer | Web Developer,1.0,1.0,1.0,1.0
+q19,"Pemasaran Digital, Desain & Kreatif",Tanpa_Reranking,Content Marketing Specialist | Social Media Specialist | Social Media Specialist | Social Media Specialist | Social Media Specialist,0.0,0.6666666666666666,0.8,0.5
+q19,"Pemasaran Digital, Desain & Kreatif",Dengan_Reranking,Content Marketing Specialist | Social Media Specialist | Social Media Specialist | Social Media Specialist | Social Media Specialist,0.0,0.6666666666666666,0.8,0.5
+q20,"Analisis Data, Bisnis & Administrasi",Tanpa_Reranking,IT project manager | IT Project manager | IT Project Manager | IT Project Manager | IT Project Manager,0.0,0.3333333333333333,0.6,0.3333333333333333
+q20,"Analisis Data, Bisnis & Administrasi",Dengan_Reranking,IT project manager | IT Project manager | IT Project Manager | IT Project Manager | IT Project Manager,0.0,0.3333333333333333,0.6,0.3333333333333333

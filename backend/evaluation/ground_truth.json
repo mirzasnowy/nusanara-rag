@@ -1,0 +1,419 @@
+[
+  {
+    "query_id": "q01",
+    "query": "Saya lulusan D3 Teknik Informatika, bisa Python dan SQL dasar. Tertarik di bidang data atau backend.",
+    "description": "Fresh grad IT dengan skill Python + SQL, minat data/backend",
+    "relevant_clusters": ["Teknologi", "Analisis Data"],
+    "graded_relevance": [
+      {"title": "Data Analyst",                                        "score": 3},
+      {"title": "Data Analyst/Data Scientist/Data Engineer/AI Engineer","score": 3},
+      {"title": "Junior Data Analyst",                                  "score": 3},
+      {"title": "IT Data Analyst",                                      "score": 3},
+      {"title": "Data Analyst Intern",                                  "score": 3},
+      {"title": "Intern-Data Analyst",                                  "score": 3},
+      {"title": "DATA ANALYST & MONITORING",                            "score": 3},
+      {"title": "Real Time Analyst (Data Analyst)",                     "score": 3},
+      {"title": "Software/Web Developer",                               "score": 3},
+      {"title": "Web Developer",                                        "score": 3},
+      {"title": "Software Engineer",                                    "score": 2},
+      {"title": "Business Intelligence",                                "score": 2},
+      {"title": "Business Intelligence Analyst",                        "score": 2},
+      {"title": "Business Intelligence Developer (Multifinance Industry)","score": 2},
+      {"title": "Business Intelligence Developer - Multifinance Industry","score": 2},
+      {"title": "Data Intelligence Analyst",                            "score": 2},
+      {"title": "Data Architect / Senior Data Engineer",                "score": 2},
+      {"title": "Web Developer (PHP Laravel)",                          "score": 2},
+      {"title": "IT Support",                                          "score": 1},
+      {"title": "IT Support Engineer",                                  "score": 1},
+      {"title": "Business Development",                                 "score": 0},
+      {"title": "Social Media Specialist",                              "score": 0}
+    ]
+  },
+  {
+    "query_id": "q02",
+    "query": "Saya fresh graduate S1 Sistem Informasi, mahir Excel dan SQL, ingin menjadi data analyst.",
+    "description": "Fresh grad SI dengan Excel + SQL, tujuan jelas: data analyst",
+    "relevant_clusters": ["Analisis Data"],
+    "graded_relevance": [
+      {"title": "Data Analyst",                                        "score": 3},
+      {"title": "Data Analyst/Data Scientist/Data Engineer/AI Engineer","score": 3},
+      {"title": "Junior Data Analyst",                                  "score": 3},
+      {"title": "IT Data Analyst",                                      "score": 3},
+      {"title": "DATA ANALYST & MONITORING",                            "score": 3},
+      {"title": "Data Analyst Intern",                                  "score": 3},
+      {"title": "Intern-Data Analyst",                                  "score": 3},
+      {"title": "Real Time Analyst (Data Analyst)",                     "score": 3},
+      {"title": "Business Intelligence",                                "score": 3},
+      {"title": "Business Intelligence Analyst",                        "score": 3},
+      {"title": "Business Intelligence & Strategic Data Analyst",        "score": 3},
+      {"title": "Business Intelligence Developer (Multifinance Industry)","score": 2},
+      {"title": "Business Intelligence Developer - Multifinance Industry","score": 2},
+      {"title": "Business Analyst",                                     "score": 2},
+      {"title": "Data Intelligence Analyst",                            "score": 2},
+      {"title": "Data Architect / Senior Data Engineer",                "score": 2},
+      {"title": "Software/Web Developer",                               "score": 1},
+      {"title": "Project Manager",                                      "score": 0},
+      {"title": "Digital Marketing",                                    "score": 0}
+    ]
+  },
+  {
+    "query_id": "q03",
+    "query": "Saya bisa HTML, CSS, JavaScript dan React. Mencari pekerjaan sebagai frontend developer.",
+    "description": "Frontend developer dengan React, HTML, CSS, JS",
+    "relevant_clusters": ["Teknologi"],
+    "graded_relevance": [
+      {"title": "Software Engineer - Frontend", "score": 3},
+      {"title": "Web Developer",                "score": 3},
+      {"title": "Software/Web Developer",       "score": 3},
+      {"title": "Web Developer (PHP Laravel)",  "score": 2},
+      {"title": "Junior Software Engineer",     "score": 2},
+      {"title": "IT Support",                   "score": 1},
+      {"title": "Data Analyst",                 "score": 0},
+      {"title": "Digital Marketing",            "score": 0}
+    ]
+  },
+  {
+    "query_id": "q04",
+    "query": "Saya lulusan desain grafis, mahir Photoshop, Illustrator, dan Canva. Ingin kerja di agensi kreatif.",
+    "description": "Desain grafis dengan Adobe tools, minat agensi kreatif",
+    "relevant_clusters": ["Desain & Kreatif"],
+    "graded_relevance": [
+      {"title": "Graphic Designer",             "score": 3},
+      {"title": "Freelance Graphic Designer",   "score": 3},
+      {"title": "Motion Graphic Designer",      "score": 2},
+      {"title": "UI/UX Designer",               "score": 1},
+      {"title": "Content Writer",               "score": 1},
+      {"title": "Digital Marketing",            "score": 0},
+      {"title": "Software/Web Developer",       "score": 0}
+    ]
+  },
+  {
+    "query_id": "q05",
+    "query": "Saya punya pengalaman di social media management, paham konten TikTok dan Instagram. Ingin kerja di bidang marketing digital.",
+    "description": "Social media specialist dengan pengalaman konten TikTok/IG",
+    "relevant_clusters": ["Pemasaran Digital"],
+    "graded_relevance": [
+      {"title": "Social Media Specialist",        "score": 3},
+      {"title": "Digital Marketing",              "score": 3},
+      {"title": "Digital Marketing Specialist",   "score": 3},
+      {"title": "Digital Marketing (Advertising)","score": 2},
+      {"title": "Content Writer",                 "score": 1},
+      {"title": "Data Analyst",                   "score": 0},
+      {"title": "Software/Web Developer",         "score": 0}
+    ]
+  },
+  {
+    "query_id": "q06",
+    "query": "Saya punya kemampuan project management dan komunikasi bisnis. Berpengalaman koordinasi tim lintas departemen.",
+    "description": "Project manager dengan soft skill komunikasi bisnis",
+    "relevant_clusters": ["Bisnis & Administrasi"],
+    "graded_relevance": [
+      {"title": "Project Manager",                 "score": 3},
+      {"title": "IT Project Manager",              "score": 3},
+      {"title": "IT project manager",              "score": 3},
+      {"title": "IT Project manager",              "score": 3},
+      {"title": "Business Development",            "score": 3},
+      {"title": "business development",            "score": 3},
+      {"title": "Business Development Executive",  "score": 2},
+      {"title": "International Business Development Executive", "score": 2},
+      {"title": "Admin e-commerce",                "score": 0},
+      {"title": "Admin E-Commerce",               "score": 0},
+      {"title": "Data Analyst",                    "score": 0},
+      {"title": "Graphic Designer",                "score": 0}
+    ]
+  },
+  {
+    "query_id": "q07",
+    "query": "Saya tertarik di bidang UI/UX design, sudah bisa Figma dan punya portfolio aplikasi mobile.",
+    "description": "UI/UX designer dengan Figma, fokus aplikasi mobile",
+    "relevant_clusters": ["Desain & Kreatif"],
+    "graded_relevance": [
+      {"title": "UI/UX Designer",              "score": 3},
+      {"title": "Mobile App UI/UX Designer",   "score": 3},
+      {"title": "Web UI/UX Designer",          "score": 3},
+      {"title": "Senior UI/UX Designer",       "score": 2},
+      {"title": "Motion Graphic Designer",     "score": 1},
+      {"title": "Graphic Designer",            "score": 1},
+      {"title": "Web Developer",               "score": 0},
+      {"title": "Digital Marketing",           "score": 0}
+    ]
+  },
+  {
+    "query_id": "q08",
+    "query": "Saya menguasai Google Ads dan SEO. Sudah pernah mengelola campaign iklan digital untuk UMKM.",
+    "description": "Google Ads + SEO specialist dengan pengalaman campaign",
+    "relevant_clusters": ["Pemasaran Digital"],
+    "graded_relevance": [
+      {"title": "Google Ads & SEO Specialist",     "score": 3},
+      {"title": "Digital Marketing (Advertising)", "score": 3},
+      {"title": "Digital Marketing",               "score": 3},
+      {"title": "SEO Specialist",                  "score": 3},
+      {"title": "AI-Powered SEO Specialist",       "score": 2},
+      {"title": "Social Media Specialist",         "score": 1},
+      {"title": "Data Analyst",                    "score": 0},
+      {"title": "IT Support",                      "score": 0}
+    ]
+  },
+  {
+    "query_id": "q09",
+    "query": "Saya seorang backend developer dengan 1 tahun pengalaman menggunakan Node.js dan PostgreSQL.",
+    "description": "Junior backend dev dengan Node.js + PostgreSQL",
+    "relevant_clusters": ["Teknologi"],
+    "graded_relevance": [
+      {"title": "Software/Web Developer",       "score": 3},
+      {"title": "Web Developer",                "score": 3},
+      {"title": "Web Developer (PHP Laravel)",  "score": 3},
+      {"title": "Junior Software Engineer",     "score": 3},
+      {"title": "Software Engineer",            "score": 2},
+      {"title": "Fullstack Software Engineer",  "score": 2},
+      {"title": "IT Support Engineer",          "score": 1},
+      {"title": "Data Analyst",                 "score": 0},
+      {"title": "Graphic Designer",             "score": 0}
+    ]
+  },
+  {
+    "query_id": "q10",
+    "query": "Saya ingin berkarier di bidang analisis data bisnis. Saya sudah pernah bikin dashboard Power BI untuk laporan penjualan.",
+    "description": "Business analyst dengan Power BI, fokus data bisnis",
+    "relevant_clusters": ["Analisis Data"],
+    "graded_relevance": [
+      {"title": "Business Intelligence",                                   "score": 3},
+      {"title": "Business Intelligence Analyst",                           "score": 3},
+      {"title": "Business Intelligence Engineer (Multifinance Industry)",   "score": 3},
+      {"title": "Business Intelligence & Strategic Data Analyst",           "score": 3},
+      {"title": "Business Intelligence Developer (Multifinance Industry)",  "score": 3},
+      {"title": "Business Intelligence Developer - Multifinance Industry",  "score": 3},
+      {"title": "Business Intelligence for Multifinance Industry",          "score": 3},
+      {"title": "Business Intelligence Analyst (Finanace/Accounting)",      "score": 3},
+      {"title": "Data Analyst",                                            "score": 3},
+      {"title": "Data Analyst/Data Scientist/Data Engineer/AI Engineer",    "score": 3},
+      {"title": "Business & Data Analyst",                                  "score": 3},
+      {"title": "Junior Data Analyst",                                      "score": 2},
+      {"title": "Business Analyst",                                        "score": 2},
+      {"title": "Business Analyst / Business Intellegence",                "score": 2},
+      {"title": "Data Architect / Senior Data Engineer",                   "score": 2},
+      {"title": "Software/Web Developer",                                  "score": 0},
+      {"title": "Social Media Specialist",                                 "score": 0}
+    ]
+  },
+  {
+    "query_id": "q11",
+    "query": "Saya berpengalaman 2 tahun sebagai Sales Executive di perusahaan B2B. Terbiasa negosiasi dan closing deal.",
+    "description": "Sales Executive 2 tahun pengalaman, B2B, negosiasi",
+    "relevant_clusters": ["Sales & Customer Service"],
+    "graded_relevance": [
+      {"title": "Sales Executive",                  "score": 3},
+      {"title": "sales Executive",                  "score": 3},
+      {"title": "sales executive",                  "score": 3},
+      {"title": "Sales Manager",                    "score": 3},
+      {"title": "Sales Engineer Manager",           "score": 3},
+      {"title": "Manager Penjualan / Sales Manager","score": 3},
+      {"title": "Sales Executive Syariah - Duri",   "score": 2},
+      {"title": "Business Development",             "score": 1},
+      {"title": "Customer Service",                 "score": 1},
+      {"title": "Data Analyst",                     "score": 0},
+      {"title": "Graphic Designer",                 "score": 0},
+      {"title": "Software/Web Developer",           "score": 0}
+    ]
+  },
+  {
+    "query_id": "q12",
+    "query": "Saya bekerja sebagai customer service selama 3 tahun, terbiasa menangani keluhan pelanggan melalui telepon dan chat.",
+    "description": "Customer service 3 tahun, handling keluhan via telepon dan chat",
+    "relevant_clusters": ["Sales & Customer Service"],
+    "graded_relevance": [
+      {"title": "Customer Service",              "score": 3},
+      {"title": "Customer Service Agent",        "score": 3},
+      {"title": "Customer Service Agent -Yogyakarta", "score": 3},
+      {"title": "Customer Service Staff",        "score": 3},
+      {"title": "Customer Service/Call Center",  "score": 3},
+      {"title": "Customer Service Online",       "score": 3},
+      {"title": "CUSTOMER SERVICE ONLINE",       "score": 3},
+      {"title": "Customer service online",       "score": 3},
+      {"title": "Admin Customer Service",        "score": 2},
+      {"title": "Admin Customer Service ( CS )", "score": 2},
+      {"title": "Account Manager",               "score": 1},
+      {"title": "Sales Executive",               "score": 1},
+      {"title": "Project Manager",               "score": 0},
+      {"title": "Data Analyst",                  "score": 0}
+    ]
+  },
+  {
+    "query_id": "q13",
+    "query": "Saya lulusan S1 Akuntansi, sudah lulus ujian CPA, pengalaman audit di KAP selama 2 tahun.",
+    "description": "Akuntan dengan CPA, pengalaman audit di KAP",
+    "relevant_clusters": ["Finance & Accounting"],
+    "graded_relevance": [
+      {"title": "Internal Auditor",                   "score": 3},
+      {"title": "Accounting Staff",                   "score": 3},
+      {"title": "accounting staff",                   "score": 3},
+      {"title": "Staff Accounting",                   "score": 3},
+      {"title": "staff accounting",                   "score": 3},
+      {"title": "Staff accounting",                   "score": 3},
+      {"title": "STAFF ACCOUNTING",                   "score": 3},
+      {"title": "Staff Accounting Tax",                "score": 3},
+      {"title": "Finance Accounting Tax",              "score": 3},
+      {"title": "Finance Accounting & Tax",            "score": 3},
+      {"title": "Finance, Accounting & Tax Analyst",   "score": 3},
+      {"title": "Finance & accounting staff",          "score": 3},
+      {"title": "Finance Analyst",                     "score": 2},
+      {"title": "Financial Analyst",                   "score": 2},
+      {"title": "Business Partner Finance Analyst",    "score": 2},
+      {"title": "Corporate Finance Analyst",           "score": 2},
+      {"title": "Project Manager",                     "score": 0},
+      {"title": "Data Analyst",                        "score": 0},
+      {"title": "Digital Marketing",                   "score": 0}
+    ]
+  },
+  {
+    "query_id": "q14",
+    "query": "Saya bekerja sebagai finance analyst di startup fintech, mahir financial modeling dan Excel tingkat lanjut.",
+    "description": "Finance analyst fintech, financial modeling, Excel advanced",
+    "relevant_clusters": ["Finance & Accounting"],
+    "graded_relevance": [
+      {"title": "Finance Analyst",                    "score": 3},
+      {"title": "Financial Analyst",                  "score": 3},
+      {"title": "Finance & accounting staff",         "score": 3},
+      {"title": "Commercial Finance Analyst",         "score": 3},
+      {"title": "Corporate Finance Analyst",          "score": 3},
+      {"title": "Accounting & Finance Analyst",       "score": 3},
+      {"title": "Staff Corporate Finance Analyst",    "score": 3},
+      {"title": "Business Partner Finance Analyst",   "score": 3},
+      {"title": "Finance, Accounting & Tax Analyst",  "score": 3},
+      {"title": "Accounting Staff",                   "score": 2},
+      {"title": "accounting staff",                   "score": 2},
+      {"title": "staff accounting",                   "score": 2},
+      {"title": "Staff Accounting",                   "score": 2},
+      {"title": "Data Analyst",                       "score": 1},
+      {"title": "Project Manager",                    "score": 0},
+      {"title": "Digital Marketing",                  "score": 0}
+    ]
+  },
+  {
+    "query_id": "q15",
+    "query": "Saya guru matematika SMA dengan pengalaman 3 tahun. Ingin beralih ke bidang pelatihan dan training korporat.",
+    "description": "Guru SMA ingin beralih ke corporate training",
+    "relevant_clusters": ["Education & Training"],
+    "graded_relevance": [
+      {"title": "Trainer",                                 "score": 3},
+      {"title": "trainer",                                 "score": 3},
+      {"title": "Head Trainer",                            "score": 3},
+      {"title": "Personal Trainer",                        "score": 3},
+      {"title": "Instruktur Komputer",                     "score": 3},
+      {"title": "instruktur",                              "score": 3},
+      {"title": "Instruktur Mekatronika",                  "score": 3},
+      {"title": "Instruktur Mekatonika",                   "score": 3},
+      {"title": "Junior Instruktur Networking",            "score": 3},
+      {"title": "Pengajar / Tutor MATEMATIKA",             "score": 3},
+      {"title": "Tutor Matematika",                        "score": 3},
+      {"title": "tutor matematika",                        "score": 3},
+      {"title": "Tutor Matematika SMA",                    "score": 3},
+      {"title": "Tutor Matematika (Freelance)",            "score": 3},
+      {"title": "Tutor Matematika (Wanita)",               "score": 3},
+      {"title": "Tutor Matematika, Fisika, Kimia",         "score": 3},
+      {"title": "Tutor Matematika SD Bimbel Bandung",      "score": 3},
+      {"title": "Guru Tutor Les Bimbel Matematika",        "score": 3},
+      {"title": "Teacher(guru bimbel)",                   "score": 2},
+      {"title": "English Teacher",                        "score": 1},
+      {"title": "Kindergarten Teacher",                   "score": 1},
+      {"title": "Project Manager",                        "score": 0},
+      {"title": "Sales Executive",                        "score": 0},
+      {"title": "Software/Web Developer",                 "score": 0}
+    ]
+  },
+  {
+    "query_id": "q16",
+    "query": "Saya tutor online untuk mata pelajaran Bahasa Inggris dan memiliki sertifikat TOEFL Instructor.",
+    "description": "Tutor Bahasa Inggris online dengan sertifikat TOEFL Instructor",
+    "relevant_clusters": ["Education & Training"],
+    "graded_relevance": [
+      {"title": "English Tutor",                                          "score": 3},
+      {"title": "Tutor Bahasa Inggris",                                   "score": 3},
+      {"title": "English Teacher",                                        "score": 3},
+      {"title": "English Teacher / Guru Bahasa Inggris (Full-Time)",      "score": 3},
+      {"title": "TUTOR / GURU BAHASA INGGRIS SEKOLAH DASAR (SD)",        "score": 3},
+      {"title": "Guru Bahasa Inggris (Tutor)",                           "score": 3},
+      {"title": "PRIVATE TUTOR",                                         "score": 3},
+      {"title": "Guru Les Privat",                                       "score": 3},
+      {"title": "Instruktur Bahasa Jepang",                               "score": 2},
+      {"title": "Tutor",                                                  "score": 2},
+      {"title": "tutor",                                                  "score": 2},
+      {"title": "Trainer",                                               "score": 1},
+      {"title": "Customer Service",                                       "score": 0},
+      {"title": "Data Analyst",                                           "score": 0}
+    ]
+  },
+  {
+    "query_id": "q17",
+    "query": "Saya lulusan statistika, mahir R dan Python untuk analisis kuantitatif dan visualisasi data.",
+    "description": "Statistika, mahir R + Python, fokus analisis kuantitatif",
+    "relevant_clusters": ["Analisis Data"],
+    "graded_relevance": [
+      {"title": "Data Analyst",                                        "score": 3},
+      {"title": "Data Analyst/Data Scientist/Data Engineer/AI Engineer","score": 3},
+      {"title": "Junior Data Analyst",                                  "score": 3},
+      {"title": "Data Scientist",                                       "score": 3},
+      {"title": "Data Intelligence Analyst",                            "score": 3},
+      {"title": "DATA ANALYST & MONITORING",                            "score": 3},
+      {"title": "Data Analyst Intern",                                  "score": 3},
+      {"title": "Data Architect / Senior Data Engineer",                "score": 3},
+      {"title": "Business Intelligence",                                "score": 2},
+      {"title": "Business Intelligence Analyst",                        "score": 2},
+      {"title": "Business Intelligence & Strategic Data Analyst",        "score": 2},
+      {"title": "Business Analyst",                                     "score": 2},
+      {"title": "Software/Web Developer",                               "score": 1},
+      {"title": "Digital Marketing",                                    "score": 0},
+      {"title": "Graphic Designer",                                     "score": 0}
+    ]
+  },
+  {
+    "query_id": "q18",
+    "query": "Saya menguasai Laravel dan PHP, sudah bikin beberapa web CRUD untuk toko online lokal.",
+    "description": "Web dev PHP Laravel dengan pengalaman e-commerce lokal",
+    "relevant_clusters": ["Teknologi"],
+    "graded_relevance": [
+      {"title": "Web Developer (PHP Laravel)",  "score": 3},
+      {"title": "Web Developer",                "score": 3},
+      {"title": "Software/Web Developer",       "score": 3},
+      {"title": "Junior Software Engineer",     "score": 2},
+      {"title": "Software Engineer",            "score": 2},
+      {"title": "IT Support",                   "score": 1},
+      {"title": "Business Intelligence",        "score": 0},
+      {"title": "Social Media Specialist",      "score": 0}
+    ]
+  },
+  {
+    "query_id": "q19",
+    "query": "Saya senang mengelola media sosial, membuat konten video pendek, dan memahami algoritma TikTok.",
+    "description": "Content creator TikTok, video editing, algoritma media sosial",
+    "relevant_clusters": ["Pemasaran Digital", "Desain & Kreatif"],
+    "graded_relevance": [
+      {"title": "Social Media Specialist",  "score": 3},
+      {"title": "Digital Marketing",        "score": 3},
+      {"title": "Content Writer",           "score": 2},
+      {"title": "Digital Content Writer",   "score": 2},
+      {"title": "Motion Graphic Designer",  "score": 2},
+      {"title": "Graphic Designer",         "score": 1},
+      {"title": "Data Analyst",             "score": 0},
+      {"title": "Software/Web Developer",   "score": 0}
+    ]
+  },
+  {
+    "query_id": "q20",
+    "query": "Saya lulusan D4 Manajemen Informatika, bisa membuat laporan keuangan, menguasai Excel dan pivot table.",
+    "description": "D4 Manajemen Informatika, Excel + pivot table, laporan keuangan",
+    "relevant_clusters": ["Analisis Data", "Bisnis & Administrasi"],
+    "graded_relevance": [
+      {"title": "Data Analyst",                    "score": 3},
+      {"title": "Business Intelligence",           "score": 3},
+      {"title": "Junior Data Analyst",             "score": 3},
+      {"title": "IT Data Analyst",                 "score": 3},
+      {"title": "Business Development",            "score": 2},
+      {"title": "Project Manager",                 "score": 2},
+      {"title": "IT Project Manager",              "score": 2},
+      {"title": "Business Development Executive",  "score": 1},
+      {"title": "Social Media Specialist",         "score": 0},
+      {"title": "Graphic Designer",                "score": 0}
+    ]
+  }
+]
