@@ -87,26 +87,55 @@ DEFAULT_SKILLS = {
 
 
 def parse_salary(salary_text: str) -> tuple[int | None, int | None]:
-    """Parse salary text ke min/max integer (dalam ribuan rupiah)."""
+    """
+    Parse salary text Indonesia ke min/max integer (Rupiah).
+    Contoh: 'Rp 4,5 jt - 4,8 jt' → (4_500_000, 4_800_000)
+
+    Fix bug lama: replace(",","") menghapus koma desimal sehingga
+    "4,5" → "45" → 45_000_000 (salah). Parser baru mengonversi
+    koma ke titik SETELAH menghapus unit (jt/rb).
+    """
     if not salary_text or pd.isna(salary_text):
         return None, None
 
-    salary_text = salary_text.lower().replace(",", "").replace(".", "")
+    t = salary_text.lower().strip()
+    # Hapus prefix "rp", spasi non-breaking, dan trim
+    t = re.sub(r'rp\.?\s*', '', t)
+    t = t.replace('\xa0', ' ').strip()
 
-    # Cari pola angka (bisa dalam juta atau ribuan)
-    numbers = re.findall(r'\d+', salary_text)
-    if not numbers:
-        return None, None
+    def parse_single(s: str):
+        s = s.strip()
+        multiplier = 1
 
-    multiplier = 1_000_000 if "jt" in salary_text or "juta" in salary_text else 1_000
+        if 'juta' in s or 'jt' in s:
+            multiplier = 1_000_000
+            s = re.sub(r'juta|jt', '', s).strip()
+        elif 'ribu' in s or 'rb' in s:
+            multiplier = 1_000
+            s = re.sub(r'ribu|rb', '', s).strip()
 
-    ints = [int(n) * multiplier for n in numbers[:2]]
+        # Koma di konteks ini SELALU desimal (bukan pemisah ribuan)
+        s = s.replace(',', '.').strip()
 
-    if len(ints) >= 2:
-        return min(ints), max(ints)
-    elif len(ints) == 1:
-        return ints[0], ints[0]
-    return None, None
+        try:
+            val = float(s)
+            return int(round(val * multiplier))
+        except (ValueError, TypeError):
+            return None
+
+    # Pisahkan range min–max
+    parts = re.split(r'\s*[–\-]\s*', t, maxsplit=1)
+
+    if len(parts) == 2:
+        lo = parse_single(parts[0])
+        hi = parse_single(parts[1])
+        if lo is not None and hi is not None and lo > hi:
+            lo, hi = hi, lo
+        return lo, hi
+    else:
+        val = parse_single(parts[0])
+        return val, val
+
 
 
 def infer_skills(row: pd.Series) -> list[str]:

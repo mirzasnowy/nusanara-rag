@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Gambar 3.1 Tahapan Design Science Research (DSR) -->
+<!-- Sesuai dengan gambar asli dari skripsi Bab 3 -->
+<mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1169" pageHeight="500" math="0" shadow="0">
+  <root>
+    <mxCell id="0" />
+    <mxCell id="1" parent="0" />
+
+    <!-- Outer dashed border -->
+    <mxCell id="bg" value="" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#666666;dashed=1;strokeWidth=1;" vertex="1" parent="1">
+      <mxGeometry x="30" y="60" width="1060" height="180" as="geometry" />
+    </mxCell>
+
+    <!-- Box 1: Identifikasi Masalah (BOLD - entry point) -->
+    <mxCell id="b1" value="&lt;b&gt;Identifikasi&lt;br&gt;masalah&lt;/b&gt;" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="60" y="110" width="130" height="60" as="geometry" />
+    </mxCell>
+
+    <!-- Label entry point -->
+    <mxCell id="ep" value="Titik masuk:&#xa;Inisiasi yang&#xa;berpusat pada&#xa;masalah" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=9;fontStyle=2;" vertex="1" parent="1">
+      <mxGeometry x="65" y="180" width="120" height="50" as="geometry" />
+    </mxCell>
+
+    <!-- Arrow 1→2 -->
+    <mxCell id="a12" edge="1" source="b1" target="b2" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+    <!-- Box 2: Perumusan Tujuan -->
+    <mxCell id="b2" value="Perumusan&#xa;tujuan" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="230" y="110" width="130" height="60" as="geometry" />
+    </mxCell>
+
+    <!-- Arrow 2→3 -->
+    <mxCell id="a23" edge="1" source="b2" target="b3" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+    <!-- Box 3: Perancangan & Pengembangan Artefak -->
+    <mxCell id="b3" value="Perancangan&#xa;dan&#xa;Pengembangan&#xa;Artefak" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="400" y="100" width="130" height="80" as="geometry" />
+    </mxCell>
+
+    <!-- Arrow 3→4 -->
+    <mxCell id="a34" edge="1" source="b3" target="b4" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+    <!-- Box 4: Demonstrasi -->
+    <mxCell id="b4" value="Demonstrasi" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="575" y="110" width="130" height="60" as="geometry" />
+    </mxCell>
+
+    <!-- Arrow 4→5 -->
+    <mxCell id="a45" edge="1" source="b4" target="b5" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+    <!-- Box 5: Evaluasi -->
+    <mxCell id="b5" value="Evaluasi" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="750" y="110" width="130" height="60" as="geometry" />
+    </mxCell>
+
+    <!-- Arrow 5→6 -->
+    <mxCell id="a56" edge="1" source="b5" target="b6" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+    <!-- Box 6: Komunikasi -->
+    <mxCell id="b6" value="Komunikasi" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="925" y="110" width="130" height="60" as="geometry" />
+    </mxCell>
+
+    <!-- Perulangan arc: from Evaluasi back to Perancangan -->
+    <mxCell id="loop" value="Perulangan" style="edgeStyle=orthogonalEdgeStyle;rounded=0;html=1;exitX=0.5;exitY=0;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" edge="1" source="b5" target="b3" parent="1">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="815" y="70" />
+          <mxPoint x="465" y="70" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+
+    <!-- Title -->
+    <mxCell id="title" value="Gambar 3.1 Tahapan Design Science Research (DSR)" style="text;html=1;strokeColor=none;fillColor=none;align=center;verticalAlign=middle;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="150" y="280" width="780" height="30" as="geometry" />
+    </mxCell>
+  </root>
+</mxGraphModel>

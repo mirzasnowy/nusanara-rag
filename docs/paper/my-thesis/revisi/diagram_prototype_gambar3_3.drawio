@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Gambar 3.3 Alur Metode Prototype - sesuai asli skripsi -->
+<mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="900" pageHeight="450" math="0" shadow="0">
+  <root>
+    <mxCell id="0" /><mxCell id="1" parent="0" />
+
+    <!-- Box 1: Pengumpulan kebutuhan -->
+    <mxCell id="b1" value="Pengumpulan&#xa;kebutuhan" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="60" y="150" width="150" height="60" as="geometry" />
+    </mxCell>
+
+    <!-- Box 2: Perancangan desain -->
+    <mxCell id="b2" value="Perancangan&#xa;desain" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="270" y="150" width="150" height="60" as="geometry" />
+    </mxCell>
+
+    <!-- Box 3: Perancangan prototipe -->
+    <mxCell id="b3" value="Perancangan&#xa;prototipe" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="480" y="150" width="150" height="60" as="geometry" />
+    </mxCell>
+
+    <!-- Box 4: Uji coba dan evaluasi -->
+    <mxCell id="b4" value="Uji coba dan&#xa;evaluasi" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="480" y="290" width="150" height="60" as="geometry" />
+    </mxCell>
+
+    <!-- Arrows forward -->
+    <mxCell id="a12" edge="1" source="b1" target="b2" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+    <mxCell id="a23" edge="1" source="b2" target="b3" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+    <mxCell id="a34" edge="1" source="b3" target="b4" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+    <!-- Feedback arrow: b4 -> b2 -->
+    <mxCell id="afb" value="" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="b4" target="b2" parent="1">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="345" y="320" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+
+    <!-- Title -->
+    <mxCell id="title" value="Gambar 3.3 Alur Metode Prototype" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="100" y="390" width="600" height="30" as="geometry" />
+    </mxCell>
+  </root>
+</mxGraphModel>

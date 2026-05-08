@@ -182,10 +182,13 @@ async def hybrid_search(
     if cluster_filter:
         params_semantic.append(cluster_filter)
 
+    # Set probes untuk IVFFlat agar memeriksa 3 list/centroid terdekat
+    await conn.execute("SET LOCAL ivfflat.probes = 3;")
+
     semantic_results = await conn.fetch(
         f"""
         SELECT
-            id, title, company, location, salary_text, skills, cluster,
+            id, title, company, location, salary_text, skills, cluster, source_url,
             1 - (embedding <=> $1::vector) AS sim_score
         FROM knowledge_base
         WHERE embedding IS NOT NULL
@@ -207,10 +210,10 @@ async def hybrid_search(
                 fulltext_results = await conn.fetch(
                     f"""
                     SELECT
-                        id, title, company, location, salary_text, skills, cluster,
-                        ts_rank(search_vector, to_tsquery('{fts_config}', $1)) AS fts_score
+                        id, title, company, location, salary_text, skills, cluster, source_url,
+                        ts_rank(search_vector, plainto_tsquery('{fts_config}', $1)) AS fts_score
                     FROM knowledge_base
-                    WHERE search_vector @@ to_tsquery('{fts_config}', $1)
+                    WHERE search_vector @@ plainto_tsquery('{fts_config}', $1)
                     ORDER BY fts_score DESC
                     LIMIT $2
                     """,

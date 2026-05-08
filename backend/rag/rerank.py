@@ -51,8 +51,8 @@ def rerank(query: str, documents: list[dict], top_n: int = None) -> list[dict]:
         )
         doc["skill_matches"] = skill_matches
 
-        # Normalisasi: max kontribusi 30% dari skill overlap
-        skill_bonus = min(skill_matches * 0.08, 0.30)
+        # Normalisasi: max kontribusi 1.0 (tiap match memberi 25%)
+        skill_bonus = min(skill_matches * 0.25, 1.0)
 
         # Base score dari hybrid search (gunakan sim_score preferably)
         base_score = doc.get("sim_score", doc.get("fts_score", 0.5))

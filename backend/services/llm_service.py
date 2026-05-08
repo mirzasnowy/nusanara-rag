@@ -1,4 +1,5 @@
 import json
+import asyncio
 import httpx
 import asyncpg
 from typing import AsyncGenerator
@@ -8,12 +9,16 @@ from rag.search import hybrid_search
 from rag.rerank import rerank
 from rag.prompt import build_prompt
 from services.profile_service import get_full_profile
+from services.memory_service import extract_and_update_profile
 from services.db import get_pool
 
 async def generate_recommendation_stream(narrative: str, user_id: str) -> AsyncGenerator[str, None]:
     """
     Fungsi generator untuk Server-Sent Events (SSE).
     Orkestrasi penuh dari RAG Pipeline: Search -> Rerank -> Prompt -> Stream LLM -> Save History.
+
+    Adaptive system berjalan di BACKGROUND setelah respons selesai di-stream.
+    Tidak pernah memblokir fast path ke pengguna.
     """
     try:
         # 1. Status awal
@@ -23,7 +28,7 @@ async def generate_recommendation_stream(narrative: str, user_id: str) -> AsyncG
         # Mulai block koneksi dari pool
         pool = get_pool()
         async with pool.acquire() as conn:
-            # 2. Ambil profil user
+            # 2. Ambil profil user (sudah terupdate dari sesi sebelumnya)
             profile = await get_full_profile(user_id, conn)
             profile_text = profile.get("profile_summary", "") if profile else ""
             
@@ -45,11 +50,12 @@ async def generate_recommendation_stream(narrative: str, user_id: str) -> AsyncG
             # 6. Eksekusi LLM Stream (Ollama)
             full_response = ""
             
-            async with httpx.AsyncClient(timeout=120.0) as client:
+            async with httpx.AsyncClient(timeout=600.0) as client:
                 request_body = {
                     "model": settings.OLLAMA_MODEL,
                     "prompt": final_prompt,
                     "stream": True,
+                    "keep_alive": -1,
                     "options": {
                         "temperature": 0.3,
                         "num_ctx": 8192,      # Lebih besar untuk RAG prompt panjang
@@ -87,7 +93,14 @@ async def generate_recommendation_stream(narrative: str, user_id: str) -> AsyncG
                 # Jika foreign key gagal (user tidak ada), log error tapi jangan crash stream
                 print(f"Failed to log recommendation history: {db_err}")
         
-        # 8. Sinyal penutup
+        # 8. BACKGROUND: Adaptive profile update (non-blocking)
+        # Extractor Agent berjalan SETELAH respons selesai dikirim.
+        # Menggunakan asyncio.create_task agar tidak memblokir sinyal [DONE].
+        asyncio.create_task(
+            extract_and_update_profile(user_id, narrative, pool)
+        )
+        
+        # 9. Sinyal penutup
         yield "data: [DONE]\n\n"
         
     except Exception as e:

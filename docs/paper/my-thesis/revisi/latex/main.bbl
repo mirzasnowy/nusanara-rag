@@ -1,0 +1,248 @@
+\begin{thebibliography}{44}
+\providecommand{\natexlab}[1]{#1}
+\providecommand{\url}[1]{\texttt{#1}}
+\expandafter\ifx\csname urlstyle\endcsname\relax
+  \providecommand{\doi}[1]{doi: #1}\else
+  \providecommand{\doi}{doi: \begingroup \urlstyle{rm}\Url}\fi
+
+\bibitem[Adomavicius and Tuzhilin(2005)]{Adomavicius2005}
+G.~Adomavicius and A.~Tuzhilin.
+\newblock Toward the next generation of recommender systems: A survey of the
+  state-of-the-art and possible extensions.
+\newblock \emph{IEEE Transactions on Knowledge and Data Engineering},
+  17\penalty0 (6):\penalty0 734--749, 2005.
+
+\bibitem[Adu et~al.(2023)]{Adu2023}
+P.~Adu et~al.
+\newblock Modern meta-frameworks for react: A comparative study.
+\newblock \emph{International Journal of Web Technologies}, 2023.
+
+\bibitem[Alhejaily(2025)]{Alhejaily2025}
+D.~Alhejaily.
+\newblock Artificial intelligence in healthcare: A systematic review.
+\newblock \emph{Computers in Biology and Medicine}, 2025.
+
+\bibitem[Atoum et~al.(2021)]{Atoum2021}
+I.~Atoum et~al.
+\newblock Software validation in requirements engineering.
+\newblock \emph{International Journal of Software Engineering}, 2021.
+
+\bibitem[{Badan Pusat Statistik}(2025)]{BPS2025}
+{Badan Pusat Statistik}.
+\newblock {Tingkat Pengangguran Terbuka (TPT) Berdasarkan Pendidikan Terakhir}.
+\newblock \url{https://www.bps.go.id/}, 2025.
+\newblock Diakses pada April 2026.
+
+\bibitem[Benfarha and Lamarti(2023)]{Benfarha2023}
+Mohamed Benfarha and Mohamed~Sefian Lamarti.
+\newblock Personalization in recommender systems.
+\newblock \emph{International Journal of Computer Science}, 2023.
+
+\bibitem[Brown and Lent(2023)]{Brown2023}
+S.~D. Brown and R.~W. Lent.
+\newblock Social cognitive career theory in a diverse world.
+\newblock \emph{Journal of Career Assessment}, 2023.
+
+\bibitem[Brown et~al.(2020)]{Brown2020}
+T.~Brown et~al.
+\newblock Language models are few-shot learners.
+\newblock \emph{Advances in Neural Information Processing Systems}, 33, 2020.
+
+\bibitem[Cormack et~al.(2009)Cormack, Clarke, and Buettcher]{Cormack2009}
+G.~V. Cormack, C.~L.~A. Clarke, and S.~Buettcher.
+\newblock Reciprocal rank fusion outperforms condorcet and individual rank
+  learning methods.
+\newblock In \emph{Proceedings of the 32nd ACM SIGIR}, 2009.
+
+\bibitem[Cormen et~al.(2009)Cormen, Leiserson, Rivest, and Stein]{Cormen2009}
+T.~H. Cormen, C.~E. Leiserson, R.~L. Rivest, and C.~Stein.
+\newblock \emph{Introduction to Algorithms}.
+\newblock MIT Press, 3rd edition, 2009.
+
+\bibitem[Davis(1989)]{Davis1989}
+F.~D. Davis.
+\newblock Perceived usefulness, perceived ease of use, and user acceptance of
+  information technology.
+\newblock \emph{MIS Quarterly}, 13\penalty0 (3):\penalty0 319--340, 1989.
+\newblock \doi{10.2307/249008}.
+
+\bibitem[Garg et~al.(2020)]{Garg2020}
+R.~Garg et~al.
+\newblock A methodological approach for web scraping single page applications.
+\newblock \emph{International Journal of Computer Applications}, 2020.
+
+\bibitem[Hardt(2012)]{Hardt2012}
+D.~Hardt.
+\newblock The oauth 2.0 authorization framework.
+\newblock RFC 6749, 2012.
+
+\bibitem[Hickson(2015)]{Hickson2015}
+I.~Hickson.
+\newblock {Server-Sent Events}.
+\newblock W3c recommendation, W3C, 2015.
+
+\bibitem[Jegou et~al.(2011)Jegou, Douze, and Schmid]{Jegou2011}
+H.~Jegou, M.~Douze, and C.~Schmid.
+\newblock Product quantization for nearest neighbor search.
+\newblock \emph{IEEE Transactions on Pattern Analysis and Machine
+  Intelligence}, 33\penalty0 (1):\penalty0 117--128, 2011.
+
+\bibitem[Jones et~al.(2015)Jones, Bradley, and Sakimura]{Jones2015}
+M.~Jones, J.~Bradley, and N.~Sakimura.
+\newblock {JSON Web Token (JWT)}.
+\newblock RFC 7519, 2015.
+
+\bibitem[Kaplan et~al.(2020)]{Kaplan2020}
+J.~Kaplan et~al.
+\newblock Scaling laws for neural language models.
+\newblock \emph{arXiv preprint arXiv:2001.08361}, 2020.
+
+\bibitem[Khder(2021)]{Khder2021}
+M.~A. Khder.
+\newblock Web scraping or web crawling: State of art, techniques, approaches
+  and application.
+\newblock \emph{International Journal of Advances in Soft Computing}, 2021.
+
+\bibitem[Kholis and Zaky(2025)]{Kholis2025}
+A.~Kholis and M.~Zaky.
+\newblock Implementasi metode prototype dalam pengembangan sistem informasi.
+\newblock \emph{Jurnal Teknologi Informasi}, 2025.
+
+\bibitem[Lewis et~al.(2020)]{Lewis2020}
+P.~Lewis et~al.
+\newblock Retrieval-augmented generation for knowledge-intensive nlp tasks.
+\newblock \emph{Advances in Neural Information Processing Systems}, 33, 2020.
+
+\bibitem[Lovering(2022)]{Lovering2022}
+C.~Lovering.
+\newblock Asynchronous web frameworks in python: A performance evaluation.
+\newblock \emph{Journal of Web Engineering}, 2022.
+
+\bibitem[Luan et~al.(2021)]{Luan2021}
+Y.~Luan et~al.
+\newblock Sparse, dense, and attentional representations for text retrieval.
+\newblock \emph{Transactions of the Association for Computational Linguistics},
+  9, 2021.
+
+\bibitem[Mikolov et~al.(2013)Mikolov, Chen, Corrado, and Dean]{Mikolov2013}
+T.~Mikolov, K.~Chen, G.~Corrado, and J.~Dean.
+\newblock Efficient estimation of word representations in vector space.
+\newblock \emph{arXiv preprint arXiv:1301.3781}, 2013.
+
+\bibitem[{Nomic AI}(2024)]{NomicAI2024}
+{Nomic AI}.
+\newblock nomic-embed-text-v2-moe: Mixture-of-experts text embeddings, 2024.
+\newblock URL \url{https://huggingface.co/nomic-ai/nomic-embed-text-v2-moe}.
+
+\bibitem[{OECD}(2021)]{OECD2021}
+{OECD}.
+\newblock Career guidance for adults in a changing world of work.
+\newblock \emph{OECD Publishing}, 2021.
+
+\bibitem[{Ollama}(2024)]{Ollama2024}
+{Ollama}.
+\newblock Get up and running with large language models locally.
+\newblock \url{https://ollama.com/}, 2024.
+
+\bibitem[Peffers et~al.(2007)Peffers, Tuunanen, Rothenberger, and
+  Chatterjee]{Peffers2007}
+K.~Peffers, T.~Tuunanen, M.~A. Rothenberger, and S.~Chatterjee.
+\newblock A design science research methodology for information systems
+  research.
+\newblock \emph{Journal of Management Information Systems}, 24\penalty0
+  (3):\penalty0 45--77, 2007.
+
+\bibitem[Ramirez(2018)]{Ramirez2018}
+S.~Ramirez.
+\newblock Fastapi: Modern, fast web framework for building apis with python,
+  2018.
+\newblock URL \url{https://fastapi.tiangolo.com}.
+
+\bibitem[Russell and Norvig(2021)]{Russell2021}
+S.~Russell and P.~Norvig.
+\newblock \emph{Artificial Intelligence: A Modern Approach}.
+\newblock Pearson, 4th edition, 2021.
+
+\bibitem[Santika et~al.(2023)]{Santika2023}
+D.~Santika et~al.
+\newblock Manajemen basis data dalam sistem informasi.
+\newblock \emph{Jurnal Informatika}, 2023.
+
+\bibitem[Saputri and Lee(2020)]{Saputri2020}
+T.~R.~D. Saputri and S.-W. Lee.
+\newblock Addressing the concerns of the others: Handling and documenting
+  missing concepts in self-adaptive systems.
+\newblock \emph{Journal of Systems and Software}, 2020.
+
+\bibitem[Savickas(2020)]{Savickas2020}
+M.~L. Savickas.
+\newblock Life design counseling manual.
+\newblock \emph{LifeDesign Lab}, 2020.
+
+\bibitem[Shazeer et~al.(2017)]{Shazeer2017}
+N.~Shazeer et~al.
+\newblock Outrageously large neural networks: The sparsely-gated
+  mixture-of-experts layer.
+\newblock \emph{arXiv preprint arXiv:1701.06538}, 2017.
+
+\bibitem[Silberschatz et~al.(2020)Silberschatz, Korth, and
+  Sudarshan]{Silberschatz2020}
+A.~Silberschatz, H.~F. Korth, and S.~Sudarshan.
+\newblock \emph{Database System Concepts}.
+\newblock McGraw-Hill Education, 7th edition, 2020.
+
+\bibitem[Simamora(2022)]{Simamora2022}
+R.~Simamora.
+\newblock Buku ajar metodologi penelitian.
+\newblock \emph{Pustaka Ilmu}, 2022.
+
+\bibitem[{UNESCO}(2021)]{UNESCO2021}
+{UNESCO}.
+\newblock Career guidance: A resource handbook for low- and middle-income
+  countries.
+\newblock \emph{UNESCO Publishing}, 2021.
+
+\bibitem[van~der Maaten and Hinton(2008)]{VanDerMaaten2008}
+Laurens van~der Maaten and Geoffrey Hinton.
+\newblock Visualizing data using {t-SNE}.
+\newblock \emph{Journal of Machine Learning Research}, 9:\penalty0 2579--2605,
+  2008.
+\newblock URL \url{https://jmlr.org/papers/v9/vandermaaten08a.html}.
+
+\bibitem[Varezki and Siahaan(2021)]{Varezki2021}
+M.~Varezki and P.~Siahaan.
+\newblock Perancangan sistem informasi berbasis web.
+\newblock \emph{Jurnal Sistem Informasi}, 10\penalty0 (2), 2021.
+
+\bibitem[Vaswani et~al.(2017)]{Vaswani2017}
+A.~Vaswani et~al.
+\newblock Attention is all you need.
+\newblock \emph{Advances in Neural Information Processing Systems}, 30, 2017.
+
+\bibitem[{W3C}(2015)]{W3C2015}
+{W3C}.
+\newblock Server-sent events.
+\newblock Technical report, World Wide Web Consortium, 2015.
+\newblock URL \url{https://www.w3.org/TR/eventsource/}.
+
+\bibitem[Wang et~al.(2022)]{Wang2022}
+D.~Wang et~al.
+\newblock Scct in the era of boundaryless careers.
+\newblock \emph{Journal of Vocational Behavior}, 2022.
+
+\bibitem[Wang et~al.(2021)]{Wang2021}
+J.~Wang et~al.
+\newblock Milvus: A purpose-built vector data management system.
+\newblock \emph{Proceedings of SIGMOD}, 2021.
+
+\bibitem[Watizega et~al.(2024)]{Watizega2024}
+R.~Watizega et~al.
+\newblock Sistem basis data relasional.
+\newblock \emph{Jurnal Teknologi}, 2024.
+
+\bibitem[Wicaksana et~al.(2025)]{Wicaksana2025}
+A.~Wicaksana et~al.
+\newblock Black box testing pada aplikasi web.
+\newblock \emph{Jurnal Sistem Informasi}, 2025.
+
+\end{thebibliography}

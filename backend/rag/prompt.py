@@ -30,12 +30,14 @@ def build_prompt(
         skill_matches = doc.get("skill_matches", 0)
         total_skills = len(doc.get("skills") or [])
         
+        source_url = doc.get('source_url', '')
+        url_line = f"\n     Link      : {source_url}" if source_url else ""
         context_text += f"""
 [{i}] Posisi   : {doc['title']}
      Perusahaan: {doc.get('company', 'N/A')} | Lokasi: {doc.get('location', 'N/A')}
      Gaji      : {doc.get('salary_text') or 'Tidak Ditampilkan'}
      Skills    : {skills_str}
-     Skor RAG  : {score} (Similarity) | Overlap Skill: {skill_matches}/{total_skills} cocok
+     Skor RAG  : {score} (Similarity) | Overlap Skill: {skill_matches}/{total_skills} cocok{url_line}
 """
 
     if not context_docs:
@@ -62,9 +64,10 @@ ATURAN PENTING (STRICT RESEARCH-GRADE CONSTRAINTS):
 1. WAJIB HANYA merekomendasikan posisi yang ADA di DATA LOWONGAN di atas. JANGAN PERNAH membuat posisi baru.
 2. JANGAN MELEBIHKAN KEMAMPUAN PENGGUNA. Jika pengguna mengatakan "dasar" atau "sedikit", evaluasi sebagai "Pemula/Dasar". Jangan tulis "Tinggi".
 3. TRACEABILITY (WAJIB): Setiap rekomendasi posisi HARUS mencantumkan alasan eksplisit berdasarkan "Skor RAG" dan "Overlap Skill" dari data di atas (Misal: "Dipilih karena skor RAG 0.85 dan overlap skill 2/4 pada Python & SQL").
-4. Jika profil pengguna SANGAT BERBEDA dengan DATA LOWONGAN (misal: mencari Backend tapi data berisi Business), Anda WAJIB menyoroti ketidakcocokan (mismatch) tersebut! Jangan pura-pura cocok.
-5. Jawaban generik tanpa merujuk metrik data lowongan akan dianggap GAGAL.
-6. Jika DATA LOWONGAN berisi "PERINGATAN SISTEM", jangan merekomendasikan posisi apapun. Sebagai gantinya, berikan panduan pengembangan skill dan saran pencarian yang lebih terfokus.
+4. Jika tersedia, WAJIB cantumkan Link lowongan di bagian Action Plan setiap posisi.
+5. Jika profil pengguna SANGAT BERBEDA dengan DATA LOWONGAN (misal: mencari Backend tapi data berisi Business), Anda WAJIB menyoroti ketidakcocokan (mismatch) tersebut! Jangan pura-pura cocok.
+6. Jawaban generik tanpa merujuk metrik data lowongan akan dianggap GAGAL.
+7. Jika DATA LOWONGAN berisi "PERINGATAN SISTEM", jangan merekomendasikan posisi apapun. Sebagai gantinya, berikan panduan pengembangan skill dan saran pencarian yang lebih terfokus.
 
 Berikan rekomendasi komprehensif dengan format berikut:
 
@@ -78,6 +81,7 @@ Berikan rekomendasi komprehensif dengan format berikut:
 - Confidence Score: [Tinggi/Menengah/Rendah] (Tuliskan alasan keyakinan Anda secara jujur)
 - Estimasi Gaji & Lokasi: (Wajib merujuk pada data)
 - Action Plan (7 Hari): [Langkah konkret melamar/belajar]
+- Link Lamaran: [cantumkan link jika tersedia]
 
 ## 3. 🔍 Analisis Skill Gap Objektif
 [Evaluasi skill yang diklaim pengguna SECARA AKURAT (jangan dilebihkan) vs requirement dari posisi target.]

@@ -1,0 +1,36 @@
+\babel@toc {bahasa}{}\relax 
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {1.1}{\ignorespaces Proses \textit {Design Science Research} (Sumber: Peffers et al., 2007)}}{8}{figure.caption.4}%
+\contentsline {figure}{\numberline {1.2}{\ignorespaces Arsitektur Model \textit {Retrieval-Augmented Generation} (RAG) (Sumber: diadaptasi dari \cite {Lewis2020})}}{10}{figure.caption.6}%
+\contentsline {figure}{\numberline {1.3}{\ignorespaces Proses Metode Prototype (Sumber: Kholis \& Zaky, 2025)}}{13}{figure.caption.7}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {2.1}{\ignorespaces Tahapan \textit {Design Science Research} (DSR) (Sumber: Peffers et al., 2007)}}{20}{figure.caption.10}%
+\contentsline {figure}{\numberline {2.2}{\ignorespaces Alur Metode \textit {Prototype} (Sumber: Kholis \& Zaky, 2025)}}{24}{figure.caption.12}%
+\contentsline {figure}{\numberline {2.3}{\ignorespaces Arsitektur Pipeline Pembersihan Data dan Indexing Vektor (ETL)}}{27}{figure.caption.13}%
+\contentsline {figure}{\numberline {2.4}{\ignorespaces Arsitektur Sistem NusaNara}}{30}{figure.caption.14}%
+\contentsline {figure}{\numberline {2.5}{\ignorespaces Alur Kerja Sistem Rekomendasi dan Pembaruan Profil Adaptif NusaNara}}{43}{figure.caption.17}%
+\contentsline {figure}{\numberline {2.6}{\ignorespaces Ilustrasi Alur Kerja Inti Artefak ``NusaNara''}}{47}{figure.caption.19}%
+\contentsline {figure}{\numberline {2.7}{\ignorespaces Rancangan Penelitian (DSR + Metode Prototype Terintegrasi)}}{48}{figure.caption.20}%
+\addvspace {10\p@ }
+\contentsline {figure}{\numberline {3.1}{\ignorespaces Diagram Komposisi Jenjang Pendidikan Responden (N=115)}}{61}{figure.caption.22}%
+\contentsline {figure}{\numberline {3.2}{\ignorespaces Diagram Sebaran Fase Pendidikan Responden per Jenjang}}{62}{figure.caption.23}%
+\contentsline {figure}{\numberline {3.3}{\ignorespaces Diagram Sebaran 5 Provinsi Teratas Responden}}{62}{figure.caption.24}%
+\contentsline {figure}{\numberline {3.4}{\ignorespaces Persentase Tingkat Kecemasan dan Kesulitan Karier (N=115)}}{63}{figure.caption.26}%
+\contentsline {figure}{\numberline {3.5}{\ignorespaces Persentase Penilaian Terhadap Layanan Karier Saat Ini (N=115)}}{64}{figure.caption.27}%
+\contentsline {figure}{\numberline {3.6}{\ignorespaces Distribusi Jawaban Kebutuhan Sistem Bimbingan Karier Baru}}{64}{figure.caption.28}%
+\contentsline {figure}{\numberline {3.7}{\ignorespaces Tangkapan Layar Data Vektor dan Leksikal pada PostgreSQL (DBeaver)}}{66}{figure.caption.29}%
+\contentsline {figure}{\numberline {3.8}{\ignorespaces Hasil Eksekusi Query Agregasi Total Data dan Kelengkapan Kolom}}{67}{figure.caption.30}%
+\contentsline {figure}{\numberline {3.9}{\ignorespaces Hasil Eksekusi Query Distribusi Data per Klaster Karier}}{67}{figure.caption.31}%
+\contentsline {figure}{\numberline {3.10}{\ignorespaces Analisis Distribusi Lowongan dan Kelengkapan Data Gaji}}{68}{figure.caption.33}%
+\contentsline {figure}{\numberline {3.11}{\ignorespaces Visualisasi t-SNE Distribusi 720 Lowongan dalam Ruang Vektor 768 Dimensi (setiap titik merepresentasikan satu dokumen lowongan, diwarnai sesuai klaster kariernya)}}{70}{figure.caption.35}%
+\contentsline {figure}{\numberline {3.12}{\ignorespaces Visualisasi Mekanisme \textit {Semantic Search} (ANN via IVFFlat/pgvector): Posisi Kueri Pengguna (bintang merah $\star $) dan Dokumen Terambil (Top-10 lingkaran abu-abu; Top-3 lingkaran emas) dalam Proyeksi t-SNE}}{71}{figure.caption.36}%
+\contentsline {figure}{\numberline {3.13}{\ignorespaces Distribusi \textit {Cosine Similarity} Intra-Klaster per Domain Karier (Boxplot; garis putih = nilai median)}}{72}{figure.caption.37}%
+\contentsline {figure}{\numberline {3.14}{\ignorespaces Arsitektur Deployment Produksi NusaNara (VPS + Vercel)}}{83}{figure.caption.41}%
+\contentsline {figure}{\numberline {3.15}{\ignorespaces Halaman Login NusaNara dengan Integrasi Clerk Auth}}{87}{figure.caption.42}%
+\contentsline {figure}{\numberline {3.16}{\ignorespaces Antarmuka Input Narasi Karier}}{88}{figure.caption.43}%
+\contentsline {figure}{\numberline {3.17}{\ignorespaces Output Rekomendasi RAG dengan Skor RAG dan Skill Overlap}}{88}{figure.caption.44}%
+\contentsline {figure}{\numberline {3.18}{\ignorespaces Transparansi Skor RAG dan Skill Overlap pada Output Rekomendasi}}{88}{figure.caption.45}%
+\contentsline {figure}{\numberline {3.19}{\ignorespaces Halaman Riwayat Rekomendasi Pengguna}}{89}{figure.caption.46}%
+\contentsline {figure}{\numberline {3.20}{\ignorespaces Demonstrasi Sistem Adaptif: Profil Akumulatif Lintas Sesi}}{89}{figure.caption.47}%
+\contentsline {figure}{\numberline {3.21}{\ignorespaces Respons Health Check Endpoint (\texttt {/health})}}{90}{figure.caption.48}%
+\contentsline {figure}{\numberline {3.22}{\ignorespaces Visualisasi Studi Ablasi: Dampak \textit {Re-ranking} pada Performa Retrieval}}{95}{figure.caption.53}%

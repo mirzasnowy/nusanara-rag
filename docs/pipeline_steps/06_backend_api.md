@@ -76,13 +76,14 @@ expanded_query
 query_vector [768 dim]
   ↓ hybrid_search(top_k=10) ← Semantic (pgvector) + FTS (tsvector) via RRF
 10 kandidat
-  ↓ rerank(top_n=3)         ← α·CosineSim + β·SkillMatch + γ·ExperienceMatch
+  ↓ rerank(top_n=3)         ← 0.70×CosSim + 0.30×SkillBonus
 3 top docs
   ↓ build_prompt()          ← 5-section Decision Intelligence prompt
 final_prompt
   ↓ Ollama llama3.1         ← stream=True, num_ctx=8192, temp=0.3
 SSE token stream → client
   ↓ save to recommendation_history table
+  ↓ asyncio.create_task(extract_and_update_profile) ← NON-BLOCKING background
 ```
 
 **Response format:** `text/event-stream`
@@ -220,3 +221,108 @@ python scripts/_test_api.py
 
 **Script test tersedia:** `backend/scripts/_test_api.py`  
 Menjalankan 2 query uji (Data Analyst + Education) dengan validasi 7 kriteria otomatis.
+
+---
+
+## 7. Adaptive Profile System (Enhancement Layer)
+
+### 7.1 Posisi dalam Arsitektur
+
+Adaptive Profile System adalah **modul personalisasi opsional** yang memperkaya `user_profiles` secara bertahap dari setiap interaksi. Modul ini **tidak memblokir** pipeline RAG utama dan berjalan sepenuhnya di *background*.
+
+```
+User Input
+   │
+   ├──► [FAST PATH — tidak berubah]           ← 0ms added latency
+   │    Embed → Hybrid Search → Rerank
+   │    → LLM Stream → SSE Response
+   │
+   └──► [BACKGROUND TASK — setelah [DONE]]   ← non-blocking
+        asyncio.create_task(...)
+            ↓
+        LLM Extractor Agent
+        (structured JSON output)
+            ↓
+        skills = UNION(old, new)
+        interests = UNION(old, new)
+        profile_summary = REPLACE
+            ↓
+        UPDATE user_profiles
+```
+
+> **Desain filosofi:** *Solve 80% of the problem with 20% complexity.*  
+> Sistem ini sengaja dibuat sederhana — tidak ada multi-layer memory, tidak ada synthesis LLM atas seluruh riwayat. Sistem yang kompleks (episodic memory, time-decay) dicadangkan sebagai *future work*.
+
+### 7.2 Extractor Agent
+
+**File:** `services/memory_service.py`
+
+LLM yang sama (Llama 3.1) digunakan dalam dua peran berbeda:
+
+| Peran | Prompt | Output |
+|---|---|---|
+| **Main RAG Agent** | Decision Intelligence prompt (5 section) | Teks rekomendasi streaming |
+| **Extractor Agent** | JSON extraction prompt (strict) | Structured JSON |
+
+**Prompt Extractor Agent:**
+```
+Dari narasi pengguna di bawah, ekstrak informasi dalam format JSON STRICT.
+→ Output wajib: {"skills": [...], "interests": [...], "summary_update": "..."}
+→ TANPA teks lain di luar JSON
+→ Jika tidak ada info relevan, kembalikan array kosong
+```
+
+**Contoh output JSON:**
+```json
+{
+  "skills": ["Figma", "Adobe XD"],
+  "interests": ["Desain & Kreatif"],
+  "summary_update": "Mahasiswa DKV semester 5 yang mahir Figma dan Adobe XD dengan pengalaman desain UI."
+}
+```
+
+### 7.3 Update Logic (Deterministik)
+
+Update profil dilakukan tanpa LLM — murni operasi set:
+
+```python
+# services/memory_service.py — _update_profile()
+merged_skills    = list(old_skills | set(new_skills))    # UNION — tidak ada yang hilang
+merged_interests = list(old_interests | set(new_interests))  # UNION
+profile_summary  = summary  # REPLACE — selalu pakai ringkasan terbaru
+```
+
+**Properti penting:**
+- **Akumulatif:** Skill lama tidak pernah hilang ketika skill baru ditambahkan
+- **Deterministik:** Tidak ada randomness dalam proses merge
+- **Idempoten:** Menjalankan dua kali dengan input yang sama tidak mengubah hasilnya
+
+### 7.4 Integrasi ke `llm_service.py`
+
+Hanya **1 baris tambahan** di akhir pipeline, setelah sinyal `[DONE]` disiapkan:
+
+```python
+# llm_service.py — setelah save recommendation_history
+asyncio.create_task(
+    extract_and_update_profile(user_id, narrative, pool)
+)
+yield "data: [DONE]\n\n"  # ← dikirim ke client tanpa menunggu background task
+```
+
+### 7.5 Tabel Komponen
+
+| Komponen | File | Fungsi |
+|---|---|---|
+| `extract_and_update_profile()` | `memory_service.py` | Entry point background task |
+| `_call_extractor()` | `memory_service.py` | LLM call (non-streaming, JSON) |
+| `_update_profile()` | `memory_service.py` | UNION merge + UPDATE DB |
+| `asyncio.create_task()` | `llm_service.py` | Fire-and-forget trigger |
+| `user_profiles` | `schema.sql` | Tabel penyimpanan (sudah ada) |
+
+### 7.6 Future Work (Tidak Diimplementasi)
+
+Sistem dirancang agar mudah dikembangkan ke:
+- **Episodic memory** — tabel `episodic_memories` (append-only, setiap sesi)
+- **Multi-LLM architecture** — Extractor Agent yang lebih ringan (misal: LLaMA 3.2 3B)
+- **Weighted skill tracking** — bobot skill berdasarkan frekuensi sebutan
+- **Time-aware decay** — skill lama diberi bobot lebih kecil

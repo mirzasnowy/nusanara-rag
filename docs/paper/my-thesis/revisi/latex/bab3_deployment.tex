@@ -1,0 +1,432 @@
+% ============================================================
+% SECTION: Skema Database dan Deployment ke VPS
+% Akan di-\input ke bab3.tex
+% ============================================================
+
+% -------------------------------------------------------
+\section{Skema Database dan Manajemen Infrastruktur}
+\label{sec:database_infrastruktur}
+% -------------------------------------------------------
+
+Bagian ini menjelaskan secara rinci desain skema database PostgreSQL dan seluruh
+infrastruktur teknis yang mendukung sistem NusaNara di lingkungan produksi.
+Pemahaman skema dan infrastruktur sangat penting karena seluruh pipeline RAG ---
+dari penyimpanan vektor hingga sistem adaptif --- bergantung pada keputusan desain
+di lapisan ini.
+
+% -------------------------------------------------------
+\subsection{Skema Database PostgreSQL}
+\label{subsec:db_schema}
+% -------------------------------------------------------
+
+Skema database terdiri dari tiga tabel utama yang saling berelasi. Seluruh tabel
+berada dalam satu instance PostgreSQL 16, memanfaatkan ekstensi \textbf{pgvector}
+untuk kolom bertipe \texttt{VECTOR(768)}.
+
+\subsubsection{Tabel 1: \texttt{knowledge\_base}}
+
+Tabel ini merupakan \textit{Single Source of Truth} untuk seluruh konten lowongan
+pekerjaan yang menjadi basis pengetahuan RAG. Setiap baris merepresentasikan satu
+dokumen lowongan.
+
+\begin{lstlisting}[language=SQL, caption={DDL Tabel knowledge\_base}]
+CREATE EXTENSION IF NOT EXISTS vector;
+
+CREATE TABLE knowledge_base (
+    id              SERIAL PRIMARY KEY,
+    cluster         TEXT NOT NULL,          -- Klaster karier (8 nilai)
+    title           TEXT NOT NULL,          -- Judul posisi lowongan
+    company         TEXT NOT NULL,          -- Nama perusahaan
+    location        TEXT,                   -- Kota/lokasi kerja
+    salary_text     TEXT,                   -- Teks gaji asli, e.g. "2,5 jt - 3,5 jt"
+    salary_min      INTEGER,                -- Gaji minimum dalam Rupiah (hasil parsing)
+    salary_max      INTEGER,                -- Gaji maksimum dalam Rupiah (hasil parsing)
+    skills          TEXT[],                 -- Array keterampilan yang diminta
+    content         TEXT NOT NULL,          -- Gabungan semua field (untuk embedding)
+    embedding       VECTOR(768),            -- Vektor semantik (nomic-embed)
+    search_vector   TSVECTOR,               -- Indeks full-text search
+    created_at      TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Indeks IVFFlat untuk pencarian ANN (Approximate Nearest Neighbor)
+-- lists = sqrt(720) ~= 27 cluster K-Means
+CREATE INDEX idx_knowledge_embedding
+    ON knowledge_base
+    USING ivfflat (embedding vector_cosine_ops)
+    WITH (lists = 27);
+
+-- Indeks GIN untuk pencarian full-text yang cepat
+CREATE INDEX idx_knowledge_fts
+    ON knowledge_base
+    USING GIN (search_vector);
+
+-- Trigger untuk auto-generate search_vector dari kolom content
+CREATE OR REPLACE FUNCTION update_search_vector()
+RETURNS TRIGGER AS $$
+BEGIN
+    NEW.search_vector := to_tsvector('simple', NEW.content);
+    RETURN NEW;
+END;
+$$ LANGUAGE plpgsql;
+
+CREATE TRIGGER trig_update_search_vector
+    BEFORE INSERT OR UPDATE ON knowledge_base
+    FOR EACH ROW EXECUTE FUNCTION update_search_vector();
+\end{lstlisting}
+
+\noindent \textbf{Penjelasan desain tabel:}
+\begin{itemize}
+  \item \textbf{Kolom \texttt{skills} (TEXT[]):} Array PostgreSQL dipilih (bukan tabel
+    relasional terpisah) karena skill tidak memerlukan operasi join kompleks ---
+    hanya operasi overlap ($\cap$) yang cukup dilakukan di Python setelah fetch.
+    Array juga memungkinkan query sederhana: \texttt{WHERE 'Python' = ANY(skills)}.
+  \item \textbf{Kolom \texttt{content}:} Berisi gabungan seluruh field dalam satu
+    blok teks (format: ``[title] di [company]. Skills: [skills]'').
+    Format ini memastikan embedding menangkap konteks penuh dokumen dalam satu vektor.
+  \item \textbf{Kolom \texttt{embedding} (VECTOR(768)):} Disimpan sebagai vektor
+    768 dimensi. Setiap dimensi merupakan nilai \texttt{float32}. Total storage per
+    dokumen untuk vektor: $768 \times 4 \text{ bytes} = 3072 \text{ bytes} \approx 3$ KB.
+    Total storage untuk 720 dokumen: $720 \times 3 \text{ KB} \approx 2.16$ MB.
+  \item \textbf{Indeks IVFFlat (\texttt{lists = 27}):} Parameter \texttt{lists}
+    menentukan jumlah \textit{cluster} K-Means yang dibangun oleh IVFFlat.
+    Nilai 27 ditetapkan berdasarkan formula rekomendasi pgvector untuk dataset berukuran sedang:
+    $\texttt{lists} = \lceil\sqrt{N}\rceil = \lceil\sqrt{720}\rceil = \lceil 26{,}8 \rceil = 27$.
+    IVFFlat membagi 720 vektor ke dalam 27 \textit{cluster}. Saat \textit{query},
+    sistem hanya memeriksa cluster terdekat (\texttt{probes} = 1 secara default),
+    menghasilkan pencarian \textit{approximate nearest neighbor} (ANN) yang jauh lebih
+    cepat dibanding \textit{brute-force} $O(n)$.
+  \item \textbf{Trigger \texttt{search\_vector}:} Menggunakan \texttt{to\_tsvector('simple', ...)}
+    dengan konfigurasi \texttt{simple} (tanpa stemming bahasa tertentu) agar kata kunci
+    teknis seperti ``Python'', ``PostgreSQL'', dan ``UI/UX'' tidak di-stem menjadi
+    bentuk lain yang salah.
+\end{itemize}
+
+\subsubsection{Tabel 2: \texttt{user\_profiles}}
+
+Tabel ini menyimpan profil adaptif setiap pengguna yang terakumulasi lintas sesi.
+
+\begin{lstlisting}[language=SQL, caption={DDL Tabel user\_profiles}]
+CREATE TABLE user_profiles (
+    user_id           TEXT PRIMARY KEY,      -- Clerk user ID (eksternal)
+    identified_skills TEXT[] DEFAULT '{}',   -- Array skill terakumulasi
+    career_interests  TEXT[] DEFAULT '{}',   -- Array minat karier
+    profile_summary   TEXT,                  -- Ringkasan narasi terkini
+    session_count     INTEGER DEFAULT 0,     -- Jumlah sesi total
+    last_active       TIMESTAMPTZ,           -- Timestamp sesi terakhir
+    created_at        TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Indeks untuk lookup cepat berdasarkan user_id (sudah PRIMARY KEY)
+-- Indeks GIN untuk query array skill
+CREATE INDEX idx_user_skills
+    ON user_profiles USING GIN (identified_skills);
+\end{lstlisting}
+
+\noindent \textbf{Penjelasan desain tabel:}
+\begin{itemize}
+  \item \textbf{Primary Key \texttt{user\_id}:} Menggunakan Clerk user ID (format:
+    \texttt{user\_xxxx...}) sebagai primary key. Tidak menggunakan UUID internal
+    karena Clerk user ID sudah unik secara global dan menghindari satu lapisan
+    mapping tambahan.
+  \item \textbf{Kolom \texttt{identified\_skills} dan \texttt{career\_interests}:}
+    Keduanya bertipe \texttt{TEXT[] DEFAULT '\{\}'} (array kosong, bukan NULL).
+    Default array kosong memastikan operasi UNION set di Python tidak memerlukan
+    pengecekan NULL: \texttt{set(existing\_skills or []) | set(new\_skills)}.
+  \item \textbf{Kolom \texttt{session\_count}:} Di-increment setiap kali
+    background task adaptive berhasil dieksekusi. Berguna untuk analisis
+    longitudinal: seberapa sering pengguna berinteraksi dengan sistem.
+  \item \textbf{Indeks GIN pada \texttt{identified\_skills}:} Memungkinkan query
+    efisien ``pengguna yang memiliki skill Python'' menggunakan operator
+    \texttt{@>} (contains). Berguna untuk fitur analitik di masa depan.
+\end{itemize}
+
+\subsubsection{Tabel 3: \texttt{recommendation\_history}}
+
+Tabel ini menyimpan log lengkap setiap sesi rekomendasi sebagai \textit{audit trail}.
+
+\begin{lstlisting}[language=SQL, caption={DDL Tabel recommendation\_history}]
+CREATE TABLE recommendation_history (
+    id              SERIAL PRIMARY KEY,
+    user_id         TEXT NOT NULL REFERENCES user_profiles(user_id),
+    session_id      UUID DEFAULT gen_random_uuid(),
+    user_narrative  TEXT NOT NULL,         -- Narasi input pengguna
+    profile_snapshot JSONB,               -- Snapshot profil saat itu
+    retrieved_docs  JSONB,                -- Top-3 dokumen yang digunakan
+    llm_response    TEXT,                 -- Respons lengkap LLM
+    rag_scores      JSONB,                -- Skor RAG per dokumen
+    ttfb_ms         INTEGER,              -- Time to First Byte (ms)
+    created_at      TIMESTAMPTZ DEFAULT NOW()
+);
+
+-- Indeks untuk riwayat per-user (query ORDER BY created_at)
+CREATE INDEX idx_history_user
+    ON recommendation_history (user_id, created_at DESC);
+\end{lstlisting}
+
+\noindent \textbf{Penjelasan desain tabel:}
+\begin{itemize}
+  \item \textbf{Kolom \texttt{profile\_snapshot} (JSONB):} Menyimpan \textit{snapshot}
+    profil pengguna \textit{pada saat} sesi terjadi, bukan referensi ke profil
+    yang bisa berubah. Ini memungkinkan reproduksi hasil (\textit{reproducibility})
+    --- mengapa rekomendasi tertentu diberikan pada waktu itu.
+  \item \textbf{Kolom \texttt{retrieved\_docs} (JSONB):} Menyimpan Top-3 dokumen
+    lengkap (title, company, skills, cosine similarity, skill bonus, final score).
+    Data ini digunakan untuk menampilkan transparansi kepada pengguna dan
+    untuk evaluasi \textit{offline} kualitas retrieval.
+  \item \textbf{Kolom \texttt{rag\_scores} (JSONB):} Menyimpan skor detail:
+    \texttt{\{doc\_id, cosine\_sim, skill\_bonus, final\_score, rrf\_score\}}.
+  \item \textbf{JSONB vs JSON:} PostgreSQL \texttt{JSONB} dipilih (bukan \texttt{JSON})
+    karena JSONB menyimpan data dalam format biner yang ter-parse, memungkinkan
+    query langsung ke field nested (\texttt{rag\_scores->>'cosine\_sim'}) dan
+    penggunaan indeks GIN pada field JSONB.
+  \item \textbf{Kolom \texttt{ttfb\_ms}:} Menyimpan \textit{Time to First Byte}
+    dalam milidetik, memungkinkan monitoring performa historis.
+\end{itemize}
+
+% -------------------------------------------------------
+\subsection{Strategi Deployment: Native VPS Ubuntu dengan systemd}
+\label{subsec:deployment_docker}
+% -------------------------------------------------------
+
+Sistem NusaNara dideploy ke VPS Ubuntu 22.04 menggunakan strategi \textbf{tanpa Docker}
+untuk komponen backend dan database, namun dengan manajemen proses menggunakan
+\textbf{systemd} (init system Linux). Keputusan ini diambil atas pertimbangan berikut:
+
+\begin{itemize}
+  \item \textbf{Ollama tidak dapat berjalan optimal di dalam container Docker}
+    pada VPS tanpa GPU NVIDIA --- Docker memerlukan NVIDIA Container Toolkit
+    untuk passthrough GPU, yang tidak relevan pada VPS CPU-only. Ollama berjalan
+    langsung di host untuk akses memori yang lebih efisien.
+  \item \textbf{PostgreSQL pada Docker mengalami overhead I/O} pada volume mounts.
+    Instalasi native PostgreSQL memberikan performa disk I/O yang lebih baik,
+    krusial untuk pencarian pgvector yang membaca data vektor berulang kali.
+  \item \textbf{Simplifikasi debugging} pada lingkungan produksi: systemd journal
+    (\texttt{journalctl}) lebih mudah diakses daripada Docker logs untuk
+    monitoring real-time oleh satu developer.
+\end{itemize}
+
+\subsubsection{Arsitektur Proses di VPS}
+
+Empat proses berjalan secara bersamaan di VPS, dikelola oleh systemd:
+
+\begin{table}[H]
+\centering
+\caption{Proses Produksi di VPS dan Manajemen via Systemd}
+\label{tab:proses_vps}
+\begin{tabular}{llll}
+\toprule
+\textbf{Proses} & \textbf{Port} & \textbf{Systemd Unit} & \textbf{RAM Estimasi} \\
+\midrule
+Nginx (Reverse Proxy) & 80, 443 & nginx.service & $\sim$50 MB \\
+FastAPI (Uvicorn) & 8000 (internal) & nusanara.service & $\sim$500 MB \\
+PostgreSQL 16 & 5432 (internal) & postgresql.service & $\sim$2 GB \\
+Ollama (LLM + Embed) & 11434 (internal) & ollama.service & $\sim$8 GB \\
+\midrule
+\multicolumn{3}{l}{\textbf{Total estimasi}} & \textbf{$\sim$10.5 GB} \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+Sisa $\sim$5.5 GB dari 16 GB RAM digunakan sebagai buffer OS, cache filesystem
+PostgreSQL, dan headroom untuk lonjakan penggunaan.
+
+\subsubsection{Konfigurasi Systemd untuk FastAPI}
+
+Systemd digunakan sebagai \textit{process manager} untuk memastikan FastAPI
+otomatis restart saat crash dan saat VPS reboot:
+
+\begin{lstlisting}[language=bash, caption={Unit File Systemd untuk FastAPI NusaNara}]
+# /etc/systemd/system/nusanara.service
+[Unit]
+Description=NusaNara FastAPI Backend
+After=network.target postgresql.service ollama.service
+Requires=postgresql.service
+
+[Service]
+Type=simple
+User=ubuntu
+WorkingDirectory=/home/ubuntu/nusanara/backend
+Environment="PATH=/home/ubuntu/.venv/bin"
+Environment="PYTHONPATH=/home/ubuntu/nusanara"
+EnvironmentFile=/home/ubuntu/nusanara/.env   # Memuat variabel rahasia
+ExecStart=/home/ubuntu/.venv/bin/uvicorn \
+    main:app \
+    --host 127.0.0.1 \
+    --port 8000 \
+    --workers 2 \
+    --loop uvloop \
+    --http httptools
+Restart=always
+RestartSec=5
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=nusanara
+
+[Install]
+WantedBy=multi-user.target
+\end{lstlisting}
+
+\noindent \textbf{Penjelasan konfigurasi systemd:}
+\begin{itemize}
+  \item \textbf{\texttt{After=postgresql.service ollama.service}:} Memastikan
+    PostgreSQL dan Ollama sudah aktif sebelum FastAPI dimulai. Tanpa ini, aplikasi
+    bisa startup sebelum database siap, menyebabkan error koneksi saat pertama kali.
+  \item \textbf{\texttt{EnvironmentFile=/home/ubuntu/nusanara/.env}:} Memuat
+    variabel lingkungan sensitif (DATABASE\_URL, CLERK\_SECRET\_KEY) dari file
+    \texttt{.env} yang tidak masuk ke version control (\textit{gitignored}).
+    Ini adalah praktik keamanan standar (\textit{12-factor app}).
+  \item \textbf{\texttt{--workers 2}:} Menjalankan 2 worker Uvicorn untuk
+    menangani concurrent requests. Lebih dari 2 worker tidak disarankan karena
+    setiap worker memuat model ke memori, dan Ollama sudah menangani
+    \textit{concurrent inference} secara internal.
+  \item \textbf{\texttt{--loop uvloop} dan \texttt{--http httptools}:}
+    Library C-based yang menggantikan event loop asyncio default Python.
+    uvloop 2-4$\times$ lebih cepat dari asyncio default, krusial untuk
+    throughput SSE streaming yang tinggi.
+  \item \textbf{\texttt{Restart=always} dengan \texttt{RestartSec=5}:}
+    Systemd akan restart proses 5 detik setelah crash, memastikan
+    \textit{high availability} tanpa intervensi manual.
+\end{itemize}
+
+\subsubsection{Konfigurasi Nginx sebagai Reverse Proxy}
+
+Nginx bertindak sebagai gerbang (\textit{gateway}) antara internet dan
+layanan internal (FastAPI pada port 8000):
+
+\begin{lstlisting}[language=bash, caption={Konfigurasi Nginx Lengkap untuk NusaNara}]
+# /etc/nginx/sites-available/nusanara
+server {
+    listen 80;
+    server_name api.nusanara.app;
+    return 301 https://$host$request_uri;  # Redirect HTTP ke HTTPS
+}
+
+server {
+    listen 443 ssl http2;
+    server_name api.nusanara.app;
+
+    # SSL/TLS via Let's Encrypt (Certbot)
+    ssl_certificate     /etc/letsencrypt/live/api.nusanara.app/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/api.nusanara.app/privkey.pem;
+    ssl_protocols       TLSv1.2 TLSv1.3;   # Matikan TLS 1.0/1.1 (usang)
+
+    # Konfigurasi CORS untuk frontend Vercel
+    add_header Access-Control-Allow-Origin  "https://nusanara.app";
+    add_header Access-Control-Allow-Methods "GET, POST, OPTIONS";
+    add_header Access-Control-Allow-Headers "Authorization, Content-Type";
+
+    location / {
+        proxy_pass          http://127.0.0.1:8000;
+        proxy_http_version  1.1;
+        proxy_set_header    Host $host;
+        proxy_set_header    X-Real-IP $remote_addr;
+        proxy_set_header    X-Forwarded-Proto $scheme;
+
+        # KONFIGURASI KRITIS UNTUK SSE STREAMING
+        proxy_buffering     off;       # Teruskan token langsung tanpa buffer
+        proxy_cache         off;       # Jangan cache respons SSE
+        proxy_read_timeout  300s;      # 5 menit untuk respons LLM panjang
+        proxy_send_timeout  300s;
+
+        # Header SSE wajib
+        add_header          Cache-Control "no-cache";
+        add_header          X-Accel-Buffering "no";
+    }
+}
+\end{lstlisting}
+
+\noindent \textbf{Penjelasan konfigurasi Nginx:}
+\begin{itemize}
+  \item \textbf{HTTPS via Let's Encrypt:} Sertifikat SSL gratis dari Let's Encrypt
+    dikelola oleh Certbot yang berjalan sebagai cron job untuk auto-renewal
+    setiap 90 hari. HTTPS wajib karena JWT Bearer token dikirim dari frontend ---
+    tanpa HTTPS, token dapat dicuri via \textit{man-in-the-middle attack}.
+  \item \textbf{\texttt{proxy\_buffering off}:} Konfigurasi paling krusial untuk SSE.
+    Nginx secara default meng-\textit{buffer} seluruh respons backend sebelum
+    mengirimkannya ke klien. Untuk SSE, ini berarti token yang dihasilkan LLM
+    menumpuk di buffer Nginx dan tidak dikirim ke klien hingga respons selesai ---
+    menghilangkan efek streaming. Dengan \texttt{proxy\_buffering off}, setiap
+    chunk \texttt{data: ...\textbackslash n\textbackslash n} langsung diteruskan.
+  \item \textbf{\texttt{X-Accel-Buffering: no}:} Header tambahan yang diakui
+    oleh beberapa versi Nginx untuk memastikan buffering benar-benar dinonaktifkan
+    bahkan jika ada override konfigurasi upstream.
+  \item \textbf{CORS headers:} Membatasi akses hanya dari domain
+    \texttt{https://nusanara.app} (frontend Vercel), mencegah akses dari
+    domain tidak sah. \texttt{OPTIONS} diperlukan untuk preflight CORS request
+    browser.
+\end{itemize}
+
+\subsubsection{Konfigurasi PostgreSQL untuk Performa}
+
+PostgreSQL dikonfigurasi melalui \texttt{postgresql.conf} untuk mengoptimalkan
+performa pada VPS 16 GB:
+
+\begin{lstlisting}[language=bash, caption={Konfigurasi PostgreSQL Kritis di postgresql.conf}]
+# Memori
+shared_buffers          = 2GB      # Disesuaikan karena Llama 3.1 8B menyita RAM
+effective_cache_size    = 4GB      # Estimasi cache OS yang tersedia setelah Llama
+work_mem                = 256MB    # Memori per operasi sort/hash
+maintenance_work_mem    = 1GB      # Untuk operasi VACUUM, CREATE INDEX
+
+# Checkpointing
+checkpoint_completion_target = 0.9  # Sebar I/O checkpoint
+wal_buffers             = 64MB
+
+# Koneksi
+max_connections         = 50       # FastAPI menggunakan pool 10 koneksi
+\end{lstlisting}
+
+\noindent \textbf{Justifikasi \texttt{shared\_buffers = 2 GB}:}
+Nilai 2 GB dialokasikan karena kapasitas RAM (16 GB) sebagian besar telah digunakan
+oleh proses Ollama dan sistem operasi (lihat estimasi alokasi pada Tabel~\ref{tab:services}).
+\texttt{effective\_cache\_size = 4 GB} memberitahu \textit{planner} PostgreSQL estimasi
+total cache yang tersedia agar dapat memilih strategi \textit{query} yang lebih efisien.
+
+\subsubsection{Pipeline Deployment: Dari Kode ke Produksi}
+
+Alur deployment ke VPS dilakukan secara manual menggunakan Git pull, tanpa CI/CD
+otomatis. Prosedur deployment standar:
+
+\begin{lstlisting}[language=bash, caption={Prosedur Deployment Manual ke VPS}]
+# 1. SSH ke VPS
+ssh ubuntu@<ip-vps>
+
+# 2. Pull kode terbaru dari repository
+cd /home/ubuntu/nusanara
+git pull origin main
+
+# 3. Aktifkan virtual environment dan install dependencies
+source .venv/bin/activate
+pip install -r backend/requirements.txt --quiet
+
+# 4. Jalankan migrasi database (jika ada perubahan schema)
+psql -U nusanara -d nusanara_db -f migrations/latest.sql
+
+# 5. Restart FastAPI service (zero-downtime jika menggunakan 2 workers)
+sudo systemctl restart nusanara.service
+
+# 6. Verifikasi status
+sudo systemctl status nusanara.service
+curl http://127.0.0.1:8000/health | python3 -m json.tool
+\end{lstlisting}
+
+\noindent \textbf{Catatan:} Verifikasi health check setelah restart memastikan
+koneksi database dan Ollama aktif sebelum traffic diarahkan kembali ke endpoint.
+
+\subsubsection{Keamanan Infrastruktur}
+
+Beberapa konfigurasi keamanan yang diterapkan:
+\begin{itemize}[noitemsep]
+  \item \textbf{UFW Firewall:} Hanya port 22 (SSH), 80 (HTTP), dan 443 (HTTPS)
+    yang terbuka secara publik. Port 5432 (PostgreSQL), 8000 (FastAPI), dan
+    11434 (Ollama) terikat ke \texttt{127.0.0.1} (localhost only), tidak dapat
+    diakses dari internet.
+  \item \textbf{SSH Key Authentication:} Login SSH hanya dengan kunci publik/privat.
+    Password authentication dinonaktifkan di \texttt{/etc/ssh/sshd\_config}
+    (\texttt{PasswordAuthentication no}).
+  \item \textbf{Fail2Ban:} Memblokir IP yang gagal login SSH lebih dari 5 kali
+    dalam 10 menit, mencegah \textit{brute-force attack}.
+  \item \textbf{Variabel Rahasia:} Seluruh kredensial (DATABASE\_URL, CLERK\_SECRET)
+    disimpan di file \texttt{.env} yang di-\textit{gitignore}, dimuat via
+    \texttt{EnvironmentFile} systemd.
+\end{itemize}

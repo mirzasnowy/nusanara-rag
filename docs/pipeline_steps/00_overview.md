@@ -47,7 +47,8 @@ NusaNara adalah sistem rekomendasi karier berbasis **Retrieval-Augmented Generat
 | **Embedding** | nomic-embed-text-v2-moe via Ollama | Local semantic embedding 768D |
 | **Retrieval** | pgvector (cosine sim) + tsvector FTS | Hybrid search (RRF fusion) |
 | **Re-ranking** | Python heuristik | Skill/experience weighted scoring |
-| **LLM** | Llama 3.1 via Ollama | Generasi teks rekomendasi |
+| **LLM** | Llama 3.1 via Ollama | RAG Generator + Extractor Agent |
+| **Adaptive Profile** | `memory_service.py` (async background) | Ekstraksi skill/minat dari narasi user |
 | **Backend** | FastAPI + asyncpg + uvicorn | REST API + SSE streaming |
 | **Auth** | Clerk (JWT) | Manajemen sesi pengguna |
 | **Frontend** | Next.js 14 + TypeScript | UI percakapan + dashboard |
@@ -107,6 +108,8 @@ Sistem NusaNara memenuhi seluruh komponen arsitektur RAG standar:
 
 Tidak ada informasi yang "dikarang" oleh LLM — seluruh rekomendasi didasarkan pada lowongan yang benar-benar ada dalam database.
 
+> **Adaptive Profile System (Enhancement Layer):** Sistem juga memiliki modul personalisasi opsional yang berjalan sebagai *background task* — LLM berperan sebagai Extractor Agent untuk mengekstrak skill/minat dari narasi user dan memperkaya `user_profiles`. Modul ini tidak memblokir pipeline RAG dan tidak berdampak pada latensi. Lihat `services/memory_service.py` dan `06_backend_api.md` §7.
+
 ---
 
 ## Indeks File Dokumentasi
@@ -119,7 +122,7 @@ Tidak ada informasi yang "dikarang" oleh LLM — seluruh rekomendasi didasarkan 
 | `03_import_db.md` | Database schema, Docker, pgvector, 720 distribution |
 | `04_embedding.md` | Embedding, hybrid search, RRF, re-ranking, bug fix |
 | `05_rag_evaluation.md` | Ground truth, P@k, MRR, iterative improvement, hasil |
-| `06_backend_api.md` | FastAPI, SSE streaming, Clerk JWT, LLM prompt |
+| `06_backend_api.md` | FastAPI, SSE streaming, Clerk JWT, LLM prompt, Adaptive Profile System |
 | `07_frontend_development.md` | Next.js 14, SSE client, Clerk middleware, dashboard |
 | `08_vps_deployment.md` | VPS, Nginx, Systemd, UFW, SSL, pg_dump, Vercel |
 

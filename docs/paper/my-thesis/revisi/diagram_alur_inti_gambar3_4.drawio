@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Gambar 3.4 Ilustrasi Alur Kerja Inti Artefak NusaNara -->
+<!-- Left: Background process (scraping). Right: Main RAG workflow loop -->
+<mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1200" pageHeight="560" math="0" shadow="0">
+  <root>
+    <mxCell id="0" /><mxCell id="1" parent="0" />
+
+    <!-- === LEFT SECTION: Background Process === -->
+    <mxCell id="bg_border" value="Proses Latar Belakang: Pengumpulan Pengetahuan" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#666666;dashed=1;fontSize=10;verticalAlign=bottom;fontStyle=2;" vertex="1" parent="1">
+      <mxGeometry x="30" y="150" width="430" height="180" as="geometry" />
+    </mxCell>
+
+    <mxCell id="src" value="Sumber Data&#xa;Eksternal&#xa;(Portal Lowongan&#xa;Kerja)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="55" y="205" width="120" height="80" as="geometry" />
+    </mxCell>
+
+    <mxCell id="scrape" value="Web Scraping &amp;&#xa;Ekstraksi Data" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="215" y="210" width="120" height="70" as="geometry" />
+    </mxCell>
+
+    <!-- DB cylinder shape approximated as box -->
+    <mxCell id="kb" value="Basis&#xa;Pengetahuan&#xa;Karier &amp;&#xa;Pendidikan" style="shape=cylinder3;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="375" y="200" width="65" height="90" as="geometry" />
+    </mxCell>
+
+    <mxCell id="a_src_scr" edge="1" source="src" target="scrape" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+    <mxCell id="a_scr_kb" edge="1" source="scrape" target="kb" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+    <!-- === RIGHT SECTION: Main RAG Workflow === -->
+    <mxCell id="main_border" value="Alur Kerja Utama Sistem NusaNara" style="rounded=0;whiteSpace=wrap;html=1;fillColor=none;strokeColor=#333333;fontSize=11;fontStyle=1;verticalAlign=top;" vertex="1" parent="1">
+      <mxGeometry x="510" y="60" width="640" height="450" as="geometry" />
+    </mxCell>
+
+    <!-- Proses Inti Artefak -->
+    <mxCell id="rag" value="Proses Inti Artefak&#xa;(Orkestrasi RAG)" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="600" y="100" width="200" height="60" as="geometry" />
+    </mxCell>
+
+    <!-- Output label -->
+    <mxCell id="out_label" value="Output" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=10;fontStyle=2;" vertex="1" parent="1">
+      <mxGeometry x="760" y="170" width="50" height="20" as="geometry" />
+    </mxCell>
+
+    <!-- Rekomendasi -->
+    <mxCell id="rekom" value="Rekomendasi Jalur Karier&#xa;Personal &amp; Adaptif" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#d5e8d4;strokeColor=#82b366;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="570" y="240" width="260" height="60" as="geometry" />
+    </mxCell>
+
+    <!-- Pengguna -->
+    <mxCell id="user" value="Pengguna" style="ellipse;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="660" y="360" width="120" height="60" as="geometry" />
+    </mxCell>
+
+    <!-- Input label -->
+    <mxCell id="in_label" value="Input" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=10;fontStyle=2;" vertex="1" parent="1">
+      <mxGeometry x="760" y="430" width="50" height="20" as="geometry" />
+    </mxCell>
+
+    <!-- Narasi Pengguna -->
+    <mxCell id="narasi" value="Narasi Pengguna" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#f8cecc;strokeColor=#b85450;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="610" y="460" width="180" height="40" as="geometry" />
+    </mxCell>
+
+    <!-- Arrows inside main box -->
+    <mxCell id="a_rag_rek" edge="1" source="rag" target="rekom" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+    <mxCell id="a_rek_usr" edge="1" source="rekom" target="user" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+    <mxCell id="a_usr_nar" edge="1" source="user" target="narasi" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+    <!-- Narasi loops back to RAG -->
+    <mxCell id="a_nar_rag" value="" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="narasi" target="rag" parent="1">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="520" y="480" />
+          <mxPoint x="520" y="130" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+
+    <!-- Arrow from KB to RAG -->
+    <mxCell id="a_kb_rag" edge="1" source="kb" target="rag" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+    <!-- Title -->
+    <mxCell id="title" value="Gambar 3.4 Ilustrasi Alur Kerja Inti Artefak &quot;NusaNara&quot;" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="100" y="520" width="900" height="30" as="geometry" />
+    </mxCell>
+  </root>
+</mxGraphModel>

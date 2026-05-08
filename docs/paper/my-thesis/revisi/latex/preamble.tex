@@ -1,0 +1,120 @@
+% ============================================================
+%  preamble.tex — Package & Setting untuk Skripsi NusaNara
+% ============================================================
+
+% --- Encoding & Bahasa ---
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[bahasa]{babel}
+
+% --- Font ---
+\usepackage{lmodern}
+
+% --- Layout & Margin ---
+\usepackage[a4paper, top=3cm, bottom=3cm, left=4cm, right=3cm]{geometry}
+\usepackage{setspace}
+\onehalfspacing              % Spasi 1.5 (standar skripsi)
+
+% --- Gambar & Grafik ---
+\usepackage{graphicx}
+
+\usepackage{float}           % [H] placement
+\graphicspath{{figures/}}    % Folder gambar default
+
+% --- Tabel ---
+\usepackage{booktabs}        % Garis tabel profesional
+\usepackage{tabularx}        % Tabel lebar fleksibel
+\usepackage{longtable}       % Tabel multi-halaman
+\usepackage{multirow}        % Sel gabungan
+\usepackage{array}
+\usepackage{xcolor}
+\usepackage{colortbl}        % Warna sel tabel
+
+% --- Matematika & Rumus ---
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{amsfonts}
+\usepackage{bm}              % Bold math
+
+% --- Kode Program ---
+\usepackage{listings}
+\usepackage{textcomp}        % Supaya backtick (`) dirender sebagai backtick asli (upquote)
+\usepackage{xcolor}
+\definecolor{codebg}{RGB}{245,245,245}
+\definecolor{codecomment}{RGB}{100,100,100}
+\definecolor{codestring}{RGB}{163,21,21}
+\definecolor{codekeyword}{RGB}{0,0,255}
+
+
+\lstdefinelanguage{JavaScript}{
+  keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break, const, let},
+  keywordstyle=\color{blue}\bfseries,
+  sensitive=false,
+  comment=[l]{//},
+  morecomment=[s]{/*}{*/},
+  morestring=[b]',
+  morestring=[b]"
+}
+
+\lstset{
+  upquote=true,              % Memastikan kutipan dan backtick dirender lurus
+  backgroundcolor=\color{codebg},
+  basicstyle=\small\ttfamily,
+  commentstyle=\color{codecomment}\itshape,
+  stringstyle=\color{codestring},
+  keywordstyle=\color{codekeyword}\bfseries,
+  breaklines=true,
+  frame=single,
+  rulecolor=\color{gray!40},
+  numbers=left,
+  numberstyle=\tiny\color{gray},
+  numbersep=5pt,
+  showstringspaces=false,
+  tabsize=2,
+  captionpos=b
+}
+
+% --- Hyperlink & PDF Metadata ---
+\usepackage[hidelinks]{hyperref}
+\hypersetup{
+  pdftitle={Revisi Skripsi NusaNara - Bab 2, 3, 4},
+  pdfauthor={Muhammad Mirza Kurniawan},
+  pdfsubject={Sistem Bimbingan Karier Berbasis RAG dan LLM},
+}
+
+% --- Caption & Referensi ---
+\usepackage{caption}
+\captionsetup{
+  font=small,
+  labelfont=bf,
+  format=plain,
+  justification=centering
+}
+
+% --- Penomoran ---
+\usepackage{enumitem}        % List yang fleksibel
+
+% --- Chapter & Section Heading ---
+\usepackage{titlesec}
+\titleformat{\chapter}[display]
+  {\normalfont\large\bfseries\centering}
+  {BAB \thechapter}{0pt}{\large}
+\titlespacing{\chapter}{0pt}{-20pt}{20pt}
+
+% --- Paragraf ---
+\setlength{\parindent}{1.25cm}
+\setlength{\parskip}{0pt}
+
+% --- Footer/Header ---
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[R]{\thepage}
+\fancyhead[L]{\leftmark}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% --- Utility ---
+\usepackage{lipsum}
+
+\newcommand{\missingfig}[1]{\begin{center}\fbox{\parbox{0.8\linewidth}{\centering\small\textbf{[GAMBAR PLACEHOLDER]}\\\textit{#1}\\\textit{Sisipkan dari dokumen asli}}}\end{center}}          % Dummy text (hapus di versi final)
+\usepackage{csquotes}

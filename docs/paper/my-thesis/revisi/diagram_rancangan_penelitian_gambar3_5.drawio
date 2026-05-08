@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Gambar 3.5 Rancangan Penelitian - flowchart lengkap DSR + Prototype -->
+<mxGraphModel dx="1422" dy="762" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1100" pageHeight="900" math="0" shadow="0">
+  <root>
+    <mxCell id="0" /><mxCell id="1" parent="0" />
+
+    <!-- START -->
+    <mxCell id="start" value="Mulai" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="200" y="30" width="80" height="40" as="geometry" />
+    </mxCell>
+
+    <!-- DSR outer box -->
+    <mxCell id="dsr_box" value="Metodologi Design Science Research (DSR)" style="rounded=0;fillColor=none;strokeColor=#333333;dashed=1;fontSize=11;fontStyle=1;verticalAlign=top;" vertex="1" parent="1">
+      <mxGeometry x="40" y="90" width="680" height="720" as="geometry" />
+    </mxCell>
+
+    <!-- DSR Step 1: Identifikasi Masalah -->
+    <mxCell id="d1" value="Identifikasi Masalah" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="130" y="130" width="190" height="50" as="geometry" />
+    </mxCell>
+
+    <!-- Literature review side -->
+    <mxCell id="litrev" value="Literature&#xa;review" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;fontStyle=2;" vertex="1" parent="1">
+      <mxGeometry x="370" y="135" width="120" height="40" as="geometry" />
+    </mxCell>
+    <mxCell id="a_d1_lit" edge="1" source="d1" target="litrev" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+    <!-- DSR Step 2: Perumusan Tujuan -->
+    <mxCell id="d2" value="Perumusan Tujuan" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="130" y="220" width="190" height="50" as="geometry" />
+    </mxCell>
+
+    <!-- DSR Step 3: Perancangan & Pengembangan -->
+    <mxCell id="d3" value="Perancangan &amp;&#xa;Pengembangan Artefak" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="130" y="310" width="190" height="50" as="geometry" />
+    </mxCell>
+
+    <!-- Prototype inner box -->
+    <mxCell id="proto_box" value="Metode Prototype" style="rounded=1;fillColor=none;strokeColor=#6c8ebf;dashed=0;fontSize=11;fontStyle=1;verticalAlign=top;" vertex="1" parent="1">
+      <mxGeometry x="360" y="260" width="320" height="360" as="geometry" />
+    </mxCell>
+
+    <!-- Prototype Step 1: Pengumpulan kebutuhan -->
+    <mxCell id="p1" value="Pengumpulan&#xa;kebutuhan" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="375" y="300" width="130" height="50" as="geometry" />
+    </mxCell>
+
+    <mxCell id="p1b" value="Web crawling,&#xa;scraping, dan&#xa;Kuesioner" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#fff2cc;strokeColor=#d6b656;fontSize=10;fontStyle=2;" vertex="1" parent="1">
+      <mxGeometry x="525" y="300" width="130" height="50" as="geometry" />
+    </mxCell>
+    <mxCell id="a_p1_p1b" edge="1" source="p1" target="p1b" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+    <!-- Prototype Step 2: Perancangan desain -->
+    <mxCell id="p2" value="Perancangan&#xa;desain" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="375" y="390" width="130" height="50" as="geometry" />
+    </mxCell>
+
+    <!-- Prototype Step 3: Perancangan prototipe -->
+    <mxCell id="p3" value="Perancangan&#xa;prototipe" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="525" y="390" width="130" height="50" as="geometry" />
+    </mxCell>
+    <mxCell id="a_p2_p3" edge="1" source="p2" target="p3" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+    <!-- Decision: Hasil Sesuai? -->
+    <mxCell id="ph" value="Hasil&#xa;Sesuai?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="400" y="480" width="100" height="70" as="geometry" />
+    </mxCell>
+
+    <!-- Uji coba dan evaluasi -->
+    <mxCell id="p4" value="Uji coba dan&#xa;evaluasi" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#dae8fc;strokeColor=#6c8ebf;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="525" y="480" width="130" height="50" as="geometry" />
+    </mxCell>
+    <mxCell id="a_p3_p4" edge="1" source="p3" target="p4" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+    <mxCell id="a_p4_ph" edge="1" source="p4" target="ph" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+    <!-- Tidak: loop back to p2 -->
+    <mxCell id="a_ph_p2" value="tidak" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="ph" target="p2" parent="1">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="395" y="515" />
+          <mxPoint x="375" y="515" />
+          <mxPoint x="375" y="415" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+
+    <!-- Ya: Selesai (inner) -->
+    <mxCell id="p_done" value="Selesai" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=10;" vertex="1" parent="1">
+      <mxGeometry x="415" y="590" width="70" height="40" as="geometry" />
+    </mxCell>
+    <mxCell id="a_ph_done" value="ya" edge="1" source="ph" target="p_done" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+    <!-- Arrows DSR steps -->
+    <mxCell id="a_s_d1" edge="1" source="start" target="d1" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+    <mxCell id="a_d1_d2" edge="1" source="d1" target="d2" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+    <mxCell id="a_d2_d3" edge="1" source="d2" target="d3" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+    <!-- d3 connects to prototype box p1 -->
+    <mxCell id="a_d3_p1" edge="1" source="d3" target="p1" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+    <!-- DSR Step 4: Demonstrasi -->
+    <mxCell id="d4" value="Demonstrasi" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="130" y="490" width="190" height="50" as="geometry" />
+    </mxCell>
+
+    <!-- DSR Step 5: Evaluasi -->
+    <mxCell id="d5_dec" value="Hasil baik?" style="rhombus;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="95" y="600" width="130" height="70" as="geometry" />
+    </mxCell>
+
+    <mxCell id="d5_lbl" value="Evaluasi" style="text;html=1;strokeColor=none;fillColor=none;align=left;fontSize=10;fontStyle=2;" vertex="1" parent="1">
+      <mxGeometry x="240" y="620" width="80" height="30" as="geometry" />
+    </mxCell>
+
+    <!-- DSR Step 6: Komunikasi -->
+    <mxCell id="d6" value="Komunikasi" style="rounded=0;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=11;" vertex="1" parent="1">
+      <mxGeometry x="130" y="710" width="190" height="50" as="geometry" />
+    </mxCell>
+
+    <!-- Connections DSR lower -->
+    <mxCell id="a_p1p2" edge="1" source="p1" target="p2" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+    <mxCell id="a_done_d4" edge="1" source="p_done" target="d4" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+    <mxCell id="a_d4_d5" edge="1" source="d4" target="d5_dec" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+    <mxCell id="a_d5_d3" value="tidak" style="edgeStyle=orthogonalEdgeStyle;" edge="1" source="d5_dec" target="d3" parent="1">
+      <mxGeometry relative="1" as="geometry">
+        <Array as="points">
+          <mxPoint x="90" y="635" />
+          <mxPoint x="90" y="335" />
+          <mxPoint x="130" y="335" />
+        </Array>
+      </mxGeometry>
+    </mxCell>
+    <mxCell id="a_d5_d6" value="ya" edge="1" source="d5_dec" target="d6" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+    <!-- END -->
+    <mxCell id="end" value="Selesai" style="ellipse;whiteSpace=wrap;html=1;fillColor=#ffffff;strokeColor=#000000;fontSize=11;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="175" y="840" width="90" height="40" as="geometry" />
+    </mxCell>
+    <mxCell id="a_d6_end" edge="1" source="d6" target="end" parent="1"><mxGeometry relative="1" as="geometry" /></mxCell>
+
+    <!-- Title -->
+    <mxCell id="title" value="Gambar 3.5 Rancangan Penelitian" style="text;html=1;strokeColor=none;fillColor=none;align=center;fontSize=12;fontStyle=1;" vertex="1" parent="1">
+      <mxGeometry x="100" y="900" width="800" height="30" as="geometry" />
+    </mxCell>
+  </root>
+</mxGraphModel>

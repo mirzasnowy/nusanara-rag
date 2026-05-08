@@ -1,0 +1,444 @@
+% ============================================================
+%  BAB 2 — LANDASAN TEORI (REVISI LENGKAP)
+%  NusaNara: Sistem Bimbingan Karier Berbasis RAG dan LLM
+% ============================================================
+\chapter{LANDASAN TEORI}
+
+Bab ini menyajikan fondasi teoretis yang menjadi dasar bagi keseluruhan penelitian.
+Uraian disusun secara sistematis, dimulai dari konsep perancangan dan validasi sistem,
+menukik ke teknologi inti yang digunakan, membahas kerangka teoretis dari domain
+bimbingan karir, hingga memetakan lanskap riset untuk memposisikan kebaruan penelitian ini.
+
+% -------------------------------------------------------
+\section{Perancangan Sistem}
+% -------------------------------------------------------
+Perancangan sistem merupakan tahapan krusial dalam \textit{System Development Life Cycle}
+yang mentransformasikan kebutuhan fungsional dan non-fungsional menjadi struktur teknis
+dan arsitektur sistem. Proses ini mencakup pemodelan data menggunakan
+\textit{Entity--Relationship Diagram} dan Normalisasi, desain antarmuka pengguna yang
+ergonomis, penentuan komponen perangkat keras serta perangkat lunak, serta integrasi modul
+untuk memastikan kinerja, skalabilitas, keamanan, dan kemudahan pemeliharaan.
+Tujuannya adalah menghasilkan spesifikasi teknis yang meminimalkan risiko proyek,
+memenuhi kebutuhan pengguna dengan efisiensi biaya dan waktu, serta mendukung tujuan
+strategis organisasi melalui integrasi sistem yang optimal \cite{Varezki2021}.
+
+% -------------------------------------------------------
+\section{Validasi Sistem}
+% -------------------------------------------------------
+Validasi adalah proses yang dilakukan untuk memastikan bahwa sistem atau perangkat lunak
+yang dikembangkan benar-benar memenuhi dan menjawab kebutuhan pengguna.
+Validasi perangkat lunak merupakan fase utama dalam rekayasa kebutuhan yang memastikan
+bahwa kebutuhan sesuai dengan sistem target, dengan tujuan mendeteksi dan memperbaiki
+kesalahan dalam kebutuhan yang telah ditentukan sebelumnya \cite{Atoum2021}.
+
+% -------------------------------------------------------
+\section{Design Science Research (DSR)}
+% -------------------------------------------------------
+Menurut \citet{Peffers2007}, \textit{Design Science Research}
+(DSR) merupakan pendekatan penelitian yang berorientasi pada penciptaan dan evaluasi
+artefak guna memecahkan masalah organisasi yang teridentifikasi melalui proses yang
+sistematis dan \textit{rigor}. Proses tersebut meliputi: (1) \textit{problem identification},
+(2) \textit{objectives of a solution}, (3) \textit{design \& development},
+(4) \textit{demonstration}, (5) \textit{evaluation}, dan (6) \textit{communication}.
+
+Output penelitian DSR berupa artefak dapat berwujud \textit{construct} (konsep baru),
+\textit{model} (representasi), \textit{method} (prosedur atau algoritma), maupun
+\textit{instantiation} (implementasi sistem).
+
+\begin{figure}[H]
+  \centering
+  \missingfig{Proses Design Science Research (Peffers et al., 2007) -- Gambar 2.1 dari draf asli}
+  \caption{Proses \textit{Design Science Research} (Sumber: Peffers et al., 2007)}
+  \label{fig:dsr}
+\end{figure}
+
+% -------------------------------------------------------
+\section{Sistem Adaptif}
+% -------------------------------------------------------
+Sistem adaptif merupakan sistem yang mampu menyesuaikan perilaku, konfigurasi,
+atau strukturnya secara otomatis sebagai respons terhadap perubahan kondisi internal
+maupun eksternal \cite{Saputri2020}. Sistem cerdas modern menggunakan prinsip adaptabilitas
+ini untuk mempelajari pola interaksi secara dinamis dan memperbarui status agen (memori) tanpa memerlukan modifikasi sistem secara manual \cite{Russell2021}.
+
+% -------------------------------------------------------
+\section{Personalisasi}
+% -------------------------------------------------------
+Personalisasi merupakan bentuk adaptasi di mana sistem menyesuaikan konten, layanan,
+atau antarmuka berdasarkan karakteristik, preferensi, dan kebutuhan spesifik pengguna \cite{Benfarha2023}.
+Personalisasi tingkat lanjut (\textit{hyper-personalization}) mengintegrasikan jejak historis
+dan profil semantik untuk menghasilkan output yang kontekstual, sehingga relevansi
+informasi yang diberikan kepada setiap individu menjadi optimal \cite{Adomavicius2005}.
+
+% -------------------------------------------------------
+\section{Artificial Intelligence (AI)}
+% -------------------------------------------------------
+Kecerdasan buatan (\textit{Artificial Intelligence}, AI) adalah bidang ilmu komputer
+yang mempelajari dan merealisasikan agen atau sistem yang mampu menunaikan
+tugas-tugas yang biasanya membutuhkan kecerdasan manusia, termasuk pengenalan pola,
+inferensi, pembuatan keputusan, dan pembelajaran dari data \cite{Alhejaily2025}.
+
+% -------------------------------------------------------
+\section{Large Language Models (LLM)}
+% -------------------------------------------------------
+\textit{Large Language Models} (LLM) adalah model bahasa berbasis jaringan saraf
+berskala sangat besar yang dilatih pada korpus teks masif untuk memprediksi token
+berikutnya dalam sebuah urutan \cite{Brown2020}. Peningkatan skala model secara signifikan
+memperluas kemampuan generalisasi, termasuk \textit{few-shot learning}.
+
+Studi menunjukkan bahwa performa LLM mengikuti \textit{scaling laws}, di mana kualitas
+model meningkat secara konsisten mengikuti \textit{power-law} terhadap ukuran model,
+jumlah data, dan komputasi pelatihan \cite{Kaplan2020}.
+
+\subsection{Local LLM dan Platform Ollama}
+Perkembangan teknik kuantisasi model (seperti format GGUF dan GPTQ) memungkinkan LLM berskala
+miliaran parameter dijalankan secara lokal pada perangkat keras komoditas (\textit{commodity hardware}) tanpa
+memerlukan infrastruktur klaster komputasi pusat. Paradigma pemrosesan lokal ini didukung oleh berbagai \textit{runtime engine}, salah satunya adalah
+\textbf{Ollama}, yang menyederhanakan siklus hidup pengoperasian LLM terbuka melalui
+antarmuka baris perintah dan layanan HTTP API \cite{Ollama2024}.
+
+Keunggulan pendekatan lokal dibandingkan Cloud API disajikan pada Tabel \ref{tab:local_vs_cloud}:
+
+\begin{table}[H]
+\centering
+\caption{Perbandingan Local LLM vs. Cloud API}
+\label{tab:local_vs_cloud}
+\begin{tabularx}{\textwidth}{lXX}
+\toprule
+\textbf{Aspek} & \textbf{Cloud API (Gemini, OpenAI)} & \textbf{Local LLM (Ollama)} \\
+\midrule
+Privasi data & Data dikirim ke server eksternal & Data tetap di infrastruktur lokal \\
+Biaya operasional & \textit{Per-token billing} & Gratis setelah setup awal \\
+Latensi & Bergantung jaringan & Bergantung hardware lokal \\
+Kontrol & Terbatas, bergantung vendor & Penuh, termasuk parameter model \\
+Ketersediaan offline & Tidak & Ya \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+% -------------------------------------------------------
+\section{Retrieval-Augmented Generation (RAG)}
+% -------------------------------------------------------
+\textit{Retrieval-Augmented Generation} (RAG) adalah arsitektur yang menggabungkan
+proses \textit{retrieval} (pengambilan) dokumen dari basis pengetahuan eksternal dengan
+kemampuan model generatif untuk menghasilkan jawaban yang lebih akurat dan
+kontekstual \cite{Lewis2020}.
+
+Alur kerja RAG dimulai ketika pengguna mengajukan pertanyaan (1), yang memicu
+pencarian semantik untuk mengambil dokumen relevan dari basis pengetahuan (2).
+Dokumen tersebut digabungkan dengan \textit{prompt} asli untuk memperkaya konteks (3),
+kemudian model memproses informasi tersebut untuk menghasilkan respons akhir (4).
+
+\begin{figure}[H]
+  \centering
+  \missingfig{Arsitektur RAG -- Gambar 2.2 dari draf asli}
+  \caption{Arsitektur Model \textit{Retrieval-Augmented Generation} (RAG) (Sumber: diadaptasi dari \cite{Lewis2020})}
+  \label{fig:rag}
+\end{figure}
+
+Pendekatan ini terbukti efektif mengurangi \textit{hallucination} karena model tidak
+hanya mengandalkan memori internal, tetapi juga referensi eksternal yang dinamis \cite{Lewis2020}.
+
+% -------------------------------------------------------
+\section{Hybrid Search dan Reciprocal Rank Fusion (RRF)}
+% -------------------------------------------------------
+\subsection{Konsep Hybrid Search}
+\textit{Hybrid Search} menggabungkan dua paradigma pencarian yang saling komplementer:
+pencarian semantik berbasis vektor (\textit{dense retrieval}) dan pencarian berbasis
+kata kunci (\textit{sparse/lexical retrieval}). Masing-masing memiliki kelemahan
+inheren \cite{Luan2021}:
+
+\begin{itemize}
+  \item Pencarian semantik: memahami sinonim dan konteks, tetapi lemah terhadap \textit{exact match} istilah teknis.
+  \item Pencarian kata kunci: sangat tepat untuk istilah spesifik, tetapi tidak memahami variasi makna.
+\end{itemize}
+
+Dalam sistem manajemen basis data modern, keduanya dapat diimplementasikan secara terintegrasi;
+misalnya, pencarian semantik menggunakan fungsi jarak spasial (\textit{Cosine Distance}),
+dan pencarian kata kunci menggunakan indeks \textit{Generalized Inverted Index} (GIN) \cite{Wang2021}.
+
+\subsection{Reciprocal Rank Fusion (RRF)}
+\textit{Reciprocal Rank Fusion} (RRF) adalah algoritma \textit{rank aggregation} yang
+menggabungkan beberapa \textit{ranked list} menjadi satu peringkat tunggal tanpa
+normalisasi skor eksplisit \cite{Cormack2009}. Rumus RRF adalah:
+
+\begin{equation}
+  RRF\_score(d) = \frac{1}{k + rank_{semantic}(d)} + \frac{1}{k + rank_{lexical}(d)}
+  \label{eq:rrf}
+\end{equation}
+
+\noindent di mana:
+\begin{itemize}[noitemsep]
+  \item $d$ = dokumen kandidat
+  \item $rank_{semantic}(d)$ = peringkat dokumen $d$ dalam hasil pencarian semantik
+  \item $rank_{lexical}(d)$ = peringkat dokumen $d$ dalam hasil pencarian kata kunci
+  \item $k$ = konstanta \textit{smoothing} ($k = 60$, divalidasi oleh Cormack et al., 2009)
+\end{itemize}
+
+Dokumen yang muncul di peringkat tinggi pada \textbf{kedua} sistem mendapat skor RRF
+signifikan lebih tinggi, menghasilkan daftar kandidat final yang tangguh terhadap kelemahan
+masing-masing metode \textit{retrieval} secara individu.
+
+% -------------------------------------------------------
+\section{Server-Sent Events (SSE)}
+% -------------------------------------------------------
+\textit{Server-Sent Events} (SSE) adalah standar web API yang memungkinkan server
+mengirimkan data ke klien secara \textit{unidirectional} melalui koneksi HTTP yang
+persisten \cite{W3C2015}. SSE dirancang khusus untuk aliran data satu arah dari server
+ke klien, menjadikannya pilihan yang lebih sederhana dan efisien dibandingkan WebSocket
+untuk kasus penggunaan \textit{streaming} teks.
+
+Dalam konteks LLM, SSE menjadi mekanisme standar untuk mengirimkan token respons
+satu per satu secara \textit{real-time}, sehingga pengguna dapat mulai membaca
+respons sebelum LLM selesai menghasilkan keseluruhan teks. Hal ini secara signifikan
+menurunkan persepsi latensi (\textit{perceived latency}).
+
+Secara teknis, aliran data SSE diformat menggunakan \texttt{text/event-stream}:
+
+\begin{lstlisting}[language=bash, caption={Struktur Dasar Payload SSE}]
+Content-Type: text/event-stream
+Cache-Control: no-cache
+Connection: keep-alive
+
+data: Data chunk 1
+
+data: Data chunk 2
+
+data: [DONE]
+\end{lstlisting}
+
+% -------------------------------------------------------
+\section{Model Embedding dan Representasi Vektor}
+% -------------------------------------------------------
+Model \textit{embedding} adalah pilar utama dalam pemrosesan bahasa alami modern yang
+bertugas memetakan teks (kata, kalimat, atau dokumen) ke dalam ruang vektor
+berdimensi tinggi, sehingga mesin dapat menghitung metrik kesamaan (\textit{similarity})
+secara matematis \cite{Mikolov2013}.
+
+Perkembangan arsitektur \textit{embedding} bergeser dari model \textit{dense} klasik
+menuju \textit{Mixture-of-Experts} (MoE). Arsitektur MoE memungkinkan model memiliki
+skala parameter yang besar namun membatasi jumlah komputasi aktif per token dengan merutekan
+pemrosesan ke sub-jaringan (\textit{expert}) tertentu \cite{Shazeer2017}. Model \textit{embedding}
+terbaru, seperti Nomic Embed \cite{NomicAI2024}, mengadopsi MoE untuk menghasilkan representasi
+vektor berkualitas tinggi (seperti 768 dimensi) yang mendukung instruksi asimetris (\textit{asymmetric embedding})
+untuk query dan dokumen.
+
+% -------------------------------------------------------
+\section{Metode Prototype}
+% -------------------------------------------------------
+Metode \textit{prototype} adalah pendekatan pengembangan perangkat lunak yang
+bersifat iteratif dan interaktif, di mana sistem dikembangkan melalui siklus
+penyempurnaan berdasarkan desain awal hingga tercipta versi yang mendekati
+produk akhir \cite{Kholis2025}.
+
+\begin{figure}[H]
+  \centering
+  \missingfig{Proses Metode Prototype (Kholis dan Zaky, 2025) -- Gambar 2.3 dari draf asli}
+  \caption{Proses Metode Prototype (Sumber: Kholis \& Zaky, 2025)}
+  \label{fig:prototype}
+\end{figure}
+
+% -------------------------------------------------------
+\section{Black Box Testing}
+% -------------------------------------------------------
+\textit{Black Box Testing} adalah metode pengujian perangkat lunak yang berfokus pada
+fungsionalitas sistem berdasarkan spesifikasi, tanpa memperhatikan struktur internal kode.
+Tujuannya adalah memastikan bahwa input yang diberikan menghasilkan output sesuai
+dengan yang diharapkan pengguna \cite{Wicaksana2025}.
+
+% -------------------------------------------------------
+\section{Basis Data}
+% -------------------------------------------------------
+Basis data adalah kumpulan data yang disimpan secara terstruktur dan saling berelasi,
+dikelola menggunakan \textit{Database Management System} (DBMS) \cite{Santika2023}.
+
+\subsection{Basis Data Relasional}
+Basis data relasional menyimpan data dalam bentuk tabel yang saling terhubung melalui
+kunci primer dan kunci asing, menggunakan SQL (\textit{Structured Query Language})
+\cite{Watizega2024}. PostgreSQL merupakan salah satu RDBMS \textit{open-source} tingkat lanjut yang banyak digunakan karena ekstensibilitasnya.
+
+\subsection{Basis Data Vektor dan pgvector}
+Basis data vektor adalah sistem penyimpanan yang dioptimalkan untuk mengelola data vektor
+berdimensi tinggi \cite{Wang2021}. Secara historis, solusi \textit{standalone} seperti
+Milvus, Pinecone, dan Weaviate digunakan untuk tujuan ini.
+
+Namun, \textbf{pgvector} muncul sebagai sebuah ekstensi \textit{open-source} untuk
+PostgreSQL yang memungkinkan penyimpanan vektor berdimensi tinggi dan pencarian
+\textit{Approximate Nearest Neighbor} (ANN) secara \textit{native} dalam basis data relasional.
+Pendekatan terintegrasi ini menawarkan keunggulan arsitektural:
+
+\begin{enumerate}[noitemsep]
+  \item \textbf{Unified architecture:} data teks, vektor, dan relasional tersimpan dalam satu transaksi ACID.
+  \item \textbf{Hybrid search native:} pencarian semantik dan FTS dalam satu instruksi SQL.
+  \item \textbf{Kemudahan pemeliharaan:} mengurangi kompleksitas sinkronisasi antar-basis data (\textit{database drift}).
+\end{enumerate}
+
+% -------------------------------------------------------
+\section{Framework dan Library Modern}
+% -------------------------------------------------------
+\subsection{FastAPI dan Model Asinkron}
+FastAPI adalah \textit{web framework} modern untuk Python yang mendukung operasi
+asinkron (\textit{async/await}) berdasarkan standar ASGI \cite{Ramirez2018}.
+Keunggulan kerangka kerja ini meliputi dukungan native untuk \textit{streaming} data (seperti SSE)
+dan throughput tinggi ketika diintegrasikan dengan driver basis data asinkron seperti \texttt{asyncpg},
+sehingga mampu menangani ribuan koneksi secara bersamaan (\textit{high concurrency}) tanpa memblokir
+\textit{thread} utama \cite{Lovering2022}.
+
+\subsection{Next.js dan React}
+Next.js adalah kerangka kerja (\textit{meta-framework}) berbasis React yang 
+menyediakan fitur set tingkat produksi seperti \textit{Server-Side Rendering} (SSR), routing berbasis aplikasi (\textit{App Router}),
+dan optimasi aset dinamis \cite{Adu2023}. Penggunaan kerangka kerja modern pada sisi klien (frontend)
+memungkinkan pembuatan \textit{Single Page Application} (SPA) yang interaktif namun tetap memiliki performa muat yang tinggi.
+
+\subsection{Authentication-as-a-Service}
+Manajemen sesi konvensional rentan terhadap celah keamanan (seperti kebocoran kunci rahasia HS256). Pendekatan modern memanfaatkan
+layanan pihak ketiga (\textit{Identity Provider}) seperti Clerk atau Auth0 yang menyediakan \textit{Authentication-as-a-Service}.
+Layanan ini menangani pendaftaran pengguna dan \textit{Single Sign-On} (SSO) berbasis OAuth 2.0 \cite{Hardt2012}, kemudian menerbitkan token JWT \cite{Jones2015} menggunakan kriptografi
+asimetris (RS256). Server backend (\textit{resource server}) hanya perlu memverifikasi tanda tangan JWT
+tersebut menggunakan \textit{JSON Web Key Set} (JWKS) publik milik \textit{Identity Provider}.
+
+% -------------------------------------------------------
+\section{Web Crawling dan Web Scraping}
+% -------------------------------------------------------
+\textit{Web crawling} adalah penjelajahan sistematis halaman web oleh \textit{crawler}
+untuk menemukan, mengunduh, dan mengindeks konten \cite{Khder2021}.
+
+\textit{Web scraping} adalah proses otomatis untuk mengambil data dari situs web dan
+mengubahnya dari format tidak terstruktur menjadi terstruktur \cite{Khder2021}.
+Untuk menghadapi aplikasi web modern yang berbasis \textit{Single Page Application} (SPA) dan sangat
+mengandalkan eksekusi JavaScript (seperti React atau Vue) untuk memuat konten, \textit{scraper} statis
+seringkali gagal. Oleh karena itu, pendekatan tingkat lanjut menggunakan sistem \textit{headless browser}
+(seperti Selenium WebDriver) diperlukan untuk menyimulasikan peramban nyata yang merender DOM secara
+penuh sebelum proses ekstraksi dilakukan \cite{Garg2020}.
+
+% -------------------------------------------------------
+\section{Skala Likert}
+% -------------------------------------------------------
+Skala Likert ditemukan oleh Rensis Likert pada tahun 1932 untuk mengukur sikap,
+pendapat, atau persepsi seseorang terhadap suatu objek atau pernyataan \cite{Simamora2022}.
+Responden diminta menyatakan tingkat persetujuan terhadap pernyataan dalam skala
+bertingkat (biasanya 1--5 atau 1--7). Skala ini secara luas diadopsi sebagai instrumen evaluasi
+penerimaan pengguna (\textit{User Acceptance Testing}) dalam rekayasa perangkat lunak.
+
+\begin{table}[H]
+\centering
+\caption{Skala Likert (Sumber: Simamora, 2022)}
+\label{tab:likert}
+\begin{tabular}{cl}
+\toprule
+\textbf{Skala} & \textbf{Keterangan} \\
+\midrule
+1 & Sangat Tidak Setuju \\
+2 & Tidak Setuju \\
+3 & Cukup \\
+4 & Setuju \\
+5 & Sangat Setuju \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+% -------------------------------------------------------
+\section{Bimbingan Karir}
+% -------------------------------------------------------
+Bimbingan karir adalah proses terstruktur yang membantu individu mengelola
+perkembangan karir, membuat keputusan pendidikan dan pekerjaan, serta menavigasi
+transisi di pasar kerja yang berubah cepat \cite{OECD2021}. UNESCO menekankan bahwa
+bimbingan karir modern berperan penting dalam membekali individu dengan
+\textit{career management skills} \cite{UNESCO2021}.
+
+% -------------------------------------------------------
+\section{Social Cognitive Career Theory (SCCT)}
+% -------------------------------------------------------
+\textit{Social Cognitive Career Theory} (SCCT) menjelaskan perkembangan minat,
+pemilihan, dan pencapaian karir melalui interaksi dinamis antara keyakinan efikasi diri
+(\textit{self-efficacy}), ekspektasi hasil (\textit{outcome expectations}), dan tujuan
+personal \cite{Brown2023}. SCCT sangat relevan di era \textit{boundaryless career},
+di mana jalur karir bersifat non-linear \cite{Wang2022}.
+
+% -------------------------------------------------------
+\section{Paradigma Life Design}
+% -------------------------------------------------------
+Paradigma \textit{Life Design} menekankan bahwa individu abad ke-21 secara aktif
+mengonstruksi jalur karir melalui narasi yang mengintegrasikan pengalaman masa lalu,
+refleksi masa kini, dan proyeksi masa depan \cite{Savickas2020}. Pendekatan ini menggeser
+fokus dari sekadar mencocokkan \textit{traits} (sifat) dengan okupasi, menuju penciptaan
+makna yang holistik di era kerja yang cair.
+
+% -------------------------------------------------------
+\section{Penelitian Sebelumnya}
+% -------------------------------------------------------
+Tabel \ref{tab:related_work} menyajikan perbandingan penelitian sebelumnya yang relevan.
+
+\begin{longtable}{p{2.5cm}p{3cm}p{3cm}p{3cm}p{3cm}}
+\caption{Penelitian Terdahulu}
+\label{tab:related_work} \\
+\toprule
+\textbf{Peneliti} & \textbf{Judul} & \textbf{Metode/Teknologi} & \textbf{Kontribusi Utama} & \textbf{Keterbatasan} \\
+\midrule
+\endfirsthead
+\toprule
+\textbf{Peneliti} & \textbf{Judul} & \textbf{Metode/Teknologi} & \textbf{Kontribusi Utama} & \textbf{Keterbatasan} \\
+\midrule
+\endhead
+\midrule \multicolumn{5}{r}{\textit{Lanjut di halaman berikutnya}} \\
+\endfoot
+\bottomrule
+\endlastfoot
+Nagur Vali Shaik dkk. (India, 2025) &
+  \textit{Human challenging career and future advice chatbot using RAG} &
+  RAG, Zephyr-7B, FAISS, LangChain, Streamlit &
+  Chatbot interaktif 24/7 dengan retrieval dokumen kontekstual untuk rekomendasi karier real-time &
+  Belum ada uji pengguna; tidak adaptif terhadap perubahan profil dari waktu ke waktu \\[6pt]
+
+S. Westman (2021) &
+  \textit{Artificial Intelligence for Career Guidance} &
+  Kajian pustaka, tinjauan sistem AI &
+  Model konseptual AI sebagai \textit{virtual coach} adaptif sepanjang hidup &
+  Berbasis tinjauan teori, tanpa prototipe atau validasi pengguna \\[6pt]
+
+RG Guntara (Indonesia, 2023) &
+  \textit{Web-Based Counseling Skills Evaluation using DSRM} &
+  DSR, PHP, MySQL, YouTube API &
+  Sistem evaluasi keterampilan konseling berbasis DSR &
+  Tidak adaptif; tanpa komponen AI canggih \\[6pt]
+
+Haerani dkk. (2024) &
+  \textit{Sistem informasi cerdas career guidance berbasis minat} &
+  BFS, RMIB, PHP, MySQL &
+  Rekomendasi jurusan berbasis 8 kategori minat RMIB &
+  Tidak ada personalisasi adaptif; sampel UAT terbatas \\[6pt]
+
+Elysia S. (2024) &
+  \textit{Chatbot RAG untuk Layanan Pelanggan E-Commerce} &
+  RAG (Llama 2 + ElasticSearch), FastAPI, React &
+  Chatbot e-commerce dengan retrieval produk dan generasi naratif &
+  Respons statis per sesi, tanpa pembelajaran dari histori interaksi \\
+\end{longtable}
+
+% -------------------------------------------------------
+\section{Posisi Penelitian Sekarang}
+% -------------------------------------------------------
+Penelitian ini berfokus pada perancangan dan validasi sistem bimbingan karir adaptif
+berbasis RAG dan LLM. Posisi penelitian ini ditunjukkan pada Tabel \ref{tab:position}.
+
+\begin{table}[H]
+\centering
+\caption{Posisi Penelitian Ini terhadap Studi Sebelumnya}
+\label{tab:position}
+\begin{tabularx}{\textwidth}{Xccccccc}
+\toprule
+\textbf{Fitur/Kriteria} & \textbf{Shaik} & \textbf{Westman} & \textbf{Guntara} & \textbf{Haerani} & \textbf{Elysia} & \textbf{NusaNara} \\
+\midrule
+Arsitektur RAG \& LLM & Ya & Tidak & Tidak & Tidak & Ya & \textbf{Ya} \\
+Konteks Indonesia & Tidak & Tidak & Ya & Ya & Ya & \textbf{Ya} \\
+Sistem Adaptif (Dinamis) & Tidak & Ya & Tidak & Tidak & Tidak & \textbf{Ya} \\
+Validasi Pengguna Formal & Tidak & Tidak & Tidak & Ya & Ya & \textbf{Ya} \\
+LLM Lokal (Privasi) & Tidak & -- & -- & -- & Tidak & \textbf{Ya} \\
+Hybrid Search (RRF) & Tidak & -- & -- & -- & Tidak & \textbf{Ya} \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+Dibandingkan penelitian sebelumnya, NusaNara memiliki keunggulan unik pada kombinasi:
+arsitektur RAG dengan \textit{Hybrid Search} (RRF), LLM yang berjalan sepenuhnya lokal
+(privasi data terjaga), sistem adaptif non-blocking berbasis \texttt{asyncio}, dan
+basis pengetahuan yang dikurasi spesifik untuk pasar kerja Indonesia.

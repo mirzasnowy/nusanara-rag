@@ -17,7 +17,7 @@ class Settings(BaseSettings):
 
     # Ollama
     OLLAMA_BASE_URL: str = "http://localhost:11434"
-    OLLAMA_MODEL: str = "llama3.1"
+    OLLAMA_MODEL: str = "llama3.1:8b-instruct-q4_K_M"
     OLLAMA_EMBED_MODEL: str = "nomic-embed-text-v2-moe"
     OLLAMA_NUM_THREAD: int = 8
     OLLAMA_KEEP_ALIVE: str = "-1"

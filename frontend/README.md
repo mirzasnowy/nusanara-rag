@@ -1,74 +1,36 @@
-# frontend/
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-Folder ini berisi Next.js 14 frontend untuk NusaNara.  
-**Status:** Belum diinisialisasi — akan dikerjakan di Task 07.
+## Getting Started
 
-## Setup (satu kali)
+First, run the development server:
 
 ```bash
-cd frontend/
-npx create-next-app@latest ./ \
-  --typescript \
-  --tailwind \
-  --eslint \
-  --app \
-  --no-src-dir \
-  --import-alias "@/*"
-
-npm install @clerk/nextjs react-markdown
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
 ```
 
-## Dependencies
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-- `@clerk/nextjs` — Auth (Google OAuth, Email OTP)
-- `react-markdown` — Render output rekomendasi (Markdown dari LLM)
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-## Struktur folder yang direncanakan
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-```
-frontend/
-├── app/
-│   ├── layout.tsx               ← Root layout + <ClerkProvider>
-│   ├── page.tsx                 ← Landing page (/)
-│   ├── sign-in/[[...sign-in]]/
-│   │   └── page.tsx             ← Clerk hosted sign-in
-│   ├── sign-up/[[...sign-up]]/
-│   │   └── page.tsx             ← Clerk hosted sign-up
-│   └── dashboard/
-│       ├── page.tsx             ← Dashboard utama
-│       ├── rekomendasi/
-│       │   └── page.tsx         ← Input narasi + streaming hasil
-│       ├── riwayat/
-│       │   ├── page.tsx         ← Daftar riwayat sesi
-│       │   └── [id]/page.tsx    ← Detail satu sesi
-│       └── profil/page.tsx      ← Profil adaptif pengguna
-│
-├── components/
-│   ├── NarrativeInput.tsx       ← Textarea input narasi
-│   ├── StreamingText.tsx        ← SSE real-time text renderer
-│   ├── RecommendationCard.tsx   ← Kartu satu rekomendasi lowongan
-│   └── HistoryList.tsx          ← List riwayat percakapan
-│
-├── lib/
-│   └── api.ts                   ← Fetch wrapper + JWT header
-│
-├── middleware.ts                 ← clerkMiddleware() (bukan proxy.ts)
-└── .env.local
-```
+## Learn More
 
-## Env yang diperlukan (frontend/.env.local)
+To learn more about Next.js, take a look at the following resources:
 
-```env
-NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=pk_test_xxxx
-CLERK_SECRET_KEY=sk_test_xxxx
-NEXT_PUBLIC_API_URL=http://localhost:8000
-```
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-## Catatan Clerk
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-Gunakan API terbaru `@clerk/nextjs`:
-- `clerkMiddleware()` dari `@clerk/nextjs/server` (**bukan** `authMiddleware`)
-- `<Show when="signed-in">` (**bukan** `<SignedIn>` yang deprecated)
-- `<Show when="signed-out">` (**bukan** `<SignedOut>` yang deprecated)
+## Deploy on Vercel
 
-Lihat detail implementasi di `docs/pipeline_steps/07_frontend_development.md`
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.

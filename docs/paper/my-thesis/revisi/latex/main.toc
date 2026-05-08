@@ -1,0 +1,128 @@
+\babel@toc {bahasa}{}\relax 
+\contentsline {chapter}{\numberline {1}LANDASAN TEORI}{7}{chapter.1}%
+\contentsline {section}{\numberline {1.1}Perancangan Sistem}{7}{section.1.1}%
+\contentsline {section}{\numberline {1.2}Validasi Sistem}{7}{section.1.2}%
+\contentsline {section}{\numberline {1.3}Design Science Research (DSR)}{7}{section.1.3}%
+\contentsline {section}{\numberline {1.4}Sistem Adaptif}{8}{section.1.4}%
+\contentsline {section}{\numberline {1.5}Personalisasi}{8}{section.1.5}%
+\contentsline {section}{\numberline {1.6}Artificial Intelligence (AI)}{8}{section.1.6}%
+\contentsline {section}{\numberline {1.7}Large Language Models (LLM)}{9}{section.1.7}%
+\contentsline {subsection}{\numberline {1.7.1}Local LLM dan Platform Ollama}{9}{subsection.1.7.1}%
+\contentsline {section}{\numberline {1.8}Retrieval-Augmented Generation (RAG)}{10}{section.1.8}%
+\contentsline {section}{\numberline {1.9}Hybrid Search dan Reciprocal Rank Fusion (RRF)}{10}{section.1.9}%
+\contentsline {subsection}{\numberline {1.9.1}Konsep Hybrid Search}{10}{subsection.1.9.1}%
+\contentsline {subsection}{\numberline {1.9.2}Reciprocal Rank Fusion (RRF)}{11}{subsection.1.9.2}%
+\contentsline {section}{\numberline {1.10}Server-Sent Events (SSE)}{11}{section.1.10}%
+\contentsline {section}{\numberline {1.11}Model Embedding dan Representasi Vektor}{12}{section.1.11}%
+\contentsline {section}{\numberline {1.12}Metode Prototype}{12}{section.1.12}%
+\contentsline {section}{\numberline {1.13}Black Box Testing}{13}{section.1.13}%
+\contentsline {section}{\numberline {1.14}Basis Data}{13}{section.1.14}%
+\contentsline {subsection}{\numberline {1.14.1}Basis Data Relasional}{13}{subsection.1.14.1}%
+\contentsline {subsection}{\numberline {1.14.2}Basis Data Vektor dan pgvector}{13}{subsection.1.14.2}%
+\contentsline {section}{\numberline {1.15}Framework dan Library Modern}{14}{section.1.15}%
+\contentsline {subsection}{\numberline {1.15.1}FastAPI dan Model Asinkron}{14}{subsection.1.15.1}%
+\contentsline {subsection}{\numberline {1.15.2}Next.js dan React}{14}{subsection.1.15.2}%
+\contentsline {subsection}{\numberline {1.15.3}Authentication-as-a-Service}{14}{subsection.1.15.3}%
+\contentsline {section}{\numberline {1.16}Web Crawling dan Web Scraping}{15}{section.1.16}%
+\contentsline {section}{\numberline {1.17}Skala Likert}{15}{section.1.17}%
+\contentsline {section}{\numberline {1.18}Bimbingan Karir}{15}{section.1.18}%
+\contentsline {section}{\numberline {1.19}Social Cognitive Career Theory (SCCT)}{16}{section.1.19}%
+\contentsline {section}{\numberline {1.20}Paradigma Life Design}{16}{section.1.20}%
+\contentsline {section}{\numberline {1.21}Penelitian Sebelumnya}{16}{section.1.21}%
+\contentsline {section}{\numberline {1.22}Posisi Penelitian Sekarang}{17}{section.1.22}%
+\contentsline {chapter}{\numberline {2}OBJEK DAN METODOLOGI PENELITIAN}{19}{chapter.2}%
+\contentsline {section}{\numberline {2.1}Objek Penelitian}{19}{section.2.1}%
+\contentsline {section}{\numberline {2.2}Metodologi Penelitian}{19}{section.2.2}%
+\contentsline {section}{\numberline {2.3}Jenis Artefak Penelitian}{21}{section.2.3}%
+\contentsline {section}{\numberline {2.4}Rancangan Penelitian}{21}{section.2.4}%
+\contentsline {subsection}{\numberline {2.4.1}Subjek dan Lokasi Penelitian}{21}{subsection.2.4.1}%
+\contentsline {subsection}{\numberline {2.4.2}Teknik Pengumpulan Data}{22}{subsection.2.4.2}%
+\contentsline {paragraph}{Alur 1: Survei Kebutuhan Awal (115 Responden)}{22}{subsection.2.4.2}%
+\contentsline {paragraph}{Alur 2: Pengumpulan Data Konten untuk Knowledge Base}{22}{subsection.2.4.2}%
+\contentsline {paragraph}{Alur 3: Pengumpulan Data Evaluasi (UAT)}{23}{table.caption.11}%
+\contentsline {subsection}{\numberline {2.4.3}Teknik Pengembangan Sistem}{23}{subsection.2.4.3}%
+\contentsline {subsubsection}{Kode Logika Web Scraping Glints}{24}{Item.18}%
+\contentsline {subsubsection}{Pipeline Pembersihan dan Embedding Data}{27}{lstnumber.2.1.82}%
+\contentsline {subsection}{\numberline {2.4.4}Arsitektur Sistem}{28}{subsection.2.4.4}%
+\contentsline {subsubsection}{Lapisan 1: Antarmuka Pengguna (Next.js 14)}{30}{figure.caption.14}%
+\contentsline {subsubsection}{Lapisan 2: Logika Bisnis (FastAPI Backend)}{31}{figure.caption.14}%
+\contentsline {subsubsection}{Lapisan 3: Penyimpanan Data (PostgreSQL 16 + pgvector)}{31}{figure.caption.14}%
+\contentsline {subsubsection}{Lapisan 4: Inferensi Lokal (Ollama)}{32}{figure.caption.14}%
+\contentsline {subsection}{\numberline {2.4.5}Analisis Kompleksitas Komputasional Pipeline RAG}{32}{subsection.2.4.5}%
+\contentsline {subsection}{\numberline {2.4.6}Detail Pipeline RAG (8 Tahap)}{34}{subsection.2.4.6}%
+\contentsline {paragraph}{Tahap 1 --- Query Expansion.}{34}{equation.2.2}%
+\contentsline {paragraph}{Tahap 2 --- Embedding (Vektorisasi).}{36}{lstnumber.2.2.30}%
+\contentsline {paragraph}{Tahap 3 --- Pencarian Semantik (pgvector Cosine Similarity).}{36}{equation.2.3}%
+\contentsline {paragraph}{Tahap 4 --- Pencarian Leksikal (PostgreSQL Full-Text Search).}{37}{equation.2.4}%
+\contentsline {paragraph}{Tahap 5 --- Reciprocal Rank Fusion (RRF).}{37}{equation.2.4}%
+\contentsline {paragraph}{Tahap 6 --- Re-ranking Heuristik.}{38}{equation.2.5}%
+\contentsline {paragraph}{Tahap 7 --- Prompt Construction dan LLM Generation.}{39}{equation.2.7}%
+\contentsline {paragraph}{Tahap 8 --- SSE Streaming ke Client.}{40}{lstnumber.2.3.25}%
+\contentsline {subsection}{\numberline {2.4.7}Alur Paralel: Adaptive Profile System (Slow Path)}{42}{subsection.2.4.7}%
+\contentsline {subsection}{\numberline {2.4.8}Teknik Analisis Data}{44}{subsection.2.4.8}%
+\contentsline {paragraph}{Lapis 1 -- Evaluasi Teknis Retrieval (RAG Evaluation)}{44}{subsection.2.4.8}%
+\contentsline {paragraph}{Lapis 2 -- Pengujian Fungsional Black-Box}{45}{equation.2.9}%
+\contentsline {paragraph}{Lapis 3 -- Evaluasi Kinerja Sistem (Latency)}{46}{equation.2.9}%
+\contentsline {paragraph}{Lapis 4 -- Evaluasi Penerimaan Pengguna (UAT)}{46}{Item.22}%
+\contentsline {section}{\numberline {2.5}Skema Database dan Manajemen Infrastruktur}{49}{section.2.5}%
+\contentsline {subsection}{\numberline {2.5.1}Skema Database PostgreSQL}{49}{subsection.2.5.1}%
+\contentsline {subsubsection}{Tabel 1: \texttt {knowledge\_base}}{49}{subsection.2.5.1}%
+\contentsline {subsubsection}{Tabel 2: \texttt {user\_profiles}}{51}{lstnumber.2.7.42}%
+\contentsline {subsubsection}{Tabel 3: \texttt {recommendation\_history}}{52}{lstnumber.2.8.14}%
+\contentsline {subsection}{\numberline {2.5.2}Strategi Deployment: Native VPS Ubuntu dengan systemd}{54}{subsection.2.5.2}%
+\contentsline {subsubsection}{Arsitektur Proses di VPS}{54}{subsection.2.5.2}%
+\contentsline {subsubsection}{Konfigurasi Systemd untuk FastAPI}{55}{table.caption.21}%
+\contentsline {subsubsection}{Konfigurasi Nginx sebagai Reverse Proxy}{56}{lstnumber.2.10.28}%
+\contentsline {subsubsection}{Konfigurasi PostgreSQL untuk Performa}{58}{lstnumber.2.11.39}%
+\contentsline {subsubsection}{Pipeline Deployment: Dari Kode ke Produksi}{59}{lstnumber.2.12.12}%
+\contentsline {subsubsection}{Keamanan Infrastruktur}{60}{lstnumber.2.13.20}%
+\contentsline {chapter}{\numberline {3}HASIL DAN PEMBAHASAN}{61}{chapter.3}%
+\contentsline {section}{\numberline {3.1}Hasil Perancangan dan Pengembangan Artefak}{61}{section.3.1}%
+\contentsline {subsection}{\numberline {3.1.1}Pengumpulan Data Kebutuhan Awal}{61}{subsection.3.1.1}%
+\contentsline {subsubsection}{Demografi Responden}{61}{subsection.3.1.1}%
+\contentsline {subsubsection}{Validasi Masalah dan Identifikasi Kebutuhan}{62}{figure.caption.24}%
+\contentsline {subsection}{\numberline {3.1.2}Pengumpulan dan Persiapan Data Lowongan}{65}{subsection.3.1.2}%
+\contentsline {subsubsection}{Proses Web Scraping}{65}{subsection.3.1.2}%
+\contentsline {subsubsection}{Hasil Pengumpulan Data}{65}{subsection.3.1.2}%
+\contentsline {subsubsection}{Hasil Pembersihan Data dan Embedding Vektor (ETL)}{65}{subsection.3.1.2}%
+\contentsline {subsubsection}{Verifikasi dan Analisis Dataset Akhir}{66}{figure.caption.29}%
+\contentsline {subsubsection}{Skema Basis Data}{69}{figure.caption.33}%
+\contentsline {subsubsection}{Analisis Ruang Vektor: Visualisasi Distribusi Semantik 8 Klaster}{69}{table.caption.34}%
+\contentsline {subsubsection}{Visualisasi Mekanisme Retrieval RAG dalam Ruang Vektor}{70}{figure.caption.35}%
+\contentsline {subsubsection}{Analisis Kohesi Semantik Intra-Klaster (Cosine Similarity)}{72}{figure.caption.36}%
+\contentsline {subsection}{\numberline {3.1.3}Implementasi Sistem}{73}{subsection.3.1.3}%
+\contentsline {subsubsection}{Spesifikasi Lingkungan Produksi (VPS)}{73}{subsection.3.1.3}%
+\contentsline {subsubsection}{Implementasi Pipeline RAG}{76}{table.caption.39}%
+\contentsline {subsubsection}{Prompt Decision Intelligence}{78}{lstnumber.3.2.29}%
+\contentsline {subsubsection}{Adaptive Profile System}{80}{table.caption.40}%
+\contentsline {paragraph}{Tahap 1 -- LLM Extractor Agent}{80}{table.caption.40}%
+\contentsline {paragraph}{Tahap 2 -- Deterministic Merge (Rule-Based)}{81}{lstnumber.3.3.25}%
+\contentsline {subsubsection}{Arsitektur Deployment Produksi}{83}{lstnumber.3.4.18}%
+\contentsline {subsubsection}{Sistem Autentikasi: JWT RS256 via Clerk}{84}{lstnumber.3.5.6}%
+\contentsline {section}{\numberline {3.2}Tampilan Antarmuka Sistem}{87}{section.3.2}%
+\contentsline {subsection}{\numberline {3.2.1}Halaman Utama dan Autentikasi}{87}{subsection.3.2.1}%
+\contentsline {subsection}{\numberline {3.2.2}Input Narasi Karier}{87}{subsection.3.2.2}%
+\contentsline {subsection}{\numberline {3.2.3}Respons Rekomendasi RAG (Streaming)}{88}{subsection.3.2.3}%
+\contentsline {subsection}{\numberline {3.2.4}Detail Skor RAG dan Skill Overlap}{88}{subsection.3.2.4}%
+\contentsline {subsection}{\numberline {3.2.5}Riwayat Rekomendasi}{89}{subsection.3.2.5}%
+\contentsline {subsection}{\numberline {3.2.6}Bukti Sistem Adaptif (Profil Akumulatif)}{89}{subsection.3.2.6}%
+\contentsline {subsection}{\numberline {3.2.7}Health Check dan Status Sistem}{89}{subsection.3.2.7}%
+\contentsline {section}{\numberline {3.3}Demonstrasi: Pengujian Fungsional Black-Box}{90}{section.3.3}%
+\contentsline {section}{\numberline {3.4}Evaluasi Teknis: Kualitas Retrieval RAG}{92}{section.3.4}%
+\contentsline {subsection}{\numberline {3.4.1}Metodologi Evaluasi dan \textit {Ground Truth}}{92}{subsection.3.4.1}%
+\contentsline {subsection}{\numberline {3.4.2}Hasil Evaluasi Retrieval}{94}{subsection.3.4.2}%
+\contentsline {subsection}{\numberline {3.4.3}Analisis Hasil}{95}{subsection.3.4.3}%
+\contentsline {paragraph}{Analisis P@1 (0,700 $\to $ 0,750, +7,1\%)}{95}{subsection.3.4.3}%
+\contentsline {paragraph}{Analisis P@3 (0,700 $\to $ 0,733, +4,7\%)}{95}{subsection.3.4.3}%
+\contentsline {paragraph}{Analisis P@5 (0,710, tanpa perubahan)}{95}{subsection.3.4.3}%
+\contentsline {paragraph}{Analisis MRR (0,800 $\to $ 0,842, +5,3\%)}{96}{subsection.3.4.3}%
+\contentsline {section}{\numberline {3.5}Evaluasi Kinerja Sistem (Latency)}{96}{section.3.5}%
+\contentsline {section}{\numberline {3.6}Evaluasi Penerimaan Pengguna (UAT)}{97}{section.3.6}%
+\contentsline {subsection}{\numberline {3.6.1}Instrumen dan Prosedur}{97}{subsection.3.6.1}%
+\contentsline {subsection}{\numberline {3.6.2}Template Pengolahan Data}{97}{subsection.3.6.2}%
+\contentsline {section}{\numberline {3.7}Pembahasan}{98}{section.3.7}%
+\contentsline {subsection}{\numberline {3.7.1}Sintesis Evaluasi terhadap Artefak DSR}{98}{subsection.3.7.1}%
+\contentsline {subsection}{\numberline {3.7.2}Kontribusi Teknis Utama}{99}{subsection.3.7.2}%
+\contentsline {subsection}{\numberline {3.7.3}Analisis Keputusan Desain}{100}{subsection.3.7.3}%
+\contentsline {subsection}{\numberline {3.7.4}Keterbatasan Penelitian dan \textit {Future Work}}{101}{subsection.3.7.4}%
+\contentsline {section}{\numberline {3.8}Perbandingan dengan Sistem Rekomendasi Karier Sejenis}{101}{section.3.8}%
