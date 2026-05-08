@@ -383,7 +383,7 @@ Sebagaimana diilustrasikan pada Gambar \ref{fig:arsitektur_sistem}, sistem terdi
 empat lapisan yang terintegrasi:
 
 \subsubsection{Lapisan 1: Antarmuka Pengguna (Next.js 14)}
-Lapisan antarmuka dibangun menggunakan Next.js 14 dengan App Router dan TypeScript.
+Lapisan antarmuka dibangun menggunakan Next.js 14 dengan arsitektur \textit{Pages Router} dan JavaScript/JSX.
 Komponen utama:
 \begin{itemize}
   \item \textbf{fetch-event-source API:} Komponen React yang membuka koneksi SSE
@@ -393,11 +393,14 @@ Komponen utama:
     selama proses streaming berlangsung. Protokol SSE juga lebih sederhana untuk
     di-\textit{proxy} melalui Nginx dibandingkan WebSocket yang memerlukan
     \textit{connection upgrade}.
-  \item \textbf{Clerk Middleware:} Setiap halaman dilindungi oleh \textit{middleware}
-    yang memvalidasi sesi Clerk. Token JWT (RS256) disisipkan ke header
+  \item \textbf{Autentikasi Clerk v7 \& Token Caching:} Setiap halaman dilindungi menggunakan
+    komponen proteksi standar dari Clerk. Token JWT disisipkan ke header
     \texttt{Authorization: Bearer <token>} pada setiap permintaan API ke backend.
-    Algoritma RS256 (asymmetric) dipilih agar backend dapat memverifikasi token
-    menggunakan \textit{public key} tanpa memerlukan \textit{shared secret}.
+    Untuk mengatasi isu pengambilan ulang (\textit{regenerate}) token yang berlebihan akibat siklus render React,
+    sistem mengimplementasikan sebuah \textit{module-level token cache}. Cache ini menyimpan token 
+    beserta waktu kedaluwarsanya di memori modul sehingga token yang sama (dengan konfigurasi \textit{lifetime} khusus)
+    dapat terus digunakan pada setiap permintaan API baru selama masa berlakunya masih memenuhi ambang batas 5 menit.
+    Backend memverifikasi token ini secara independen.
   \item \textbf{Halaman Riwayat:} Menampilkan seluruh sesi rekomendasi sebelumnya,
     memungkinkan pengguna melacak perkembangan eksplorasi karier dari waktu ke waktu.
 \end{itemize}
@@ -730,6 +733,7 @@ ATURAN KETAT (FAITHFULNESS CONSTRAINT):
 1. HANYA gunakan informasi posisi dan perusahaan dari dokumen konteks yang diberikan!
 2. DILARANG KERAS mengarang, berhalusinasi, atau merekomendasikan pekerjaan yang tidak ada di dokumen konteks.
 3. Setiap rekomendasi posisi WAJIB mencantumkan SKOR RAG dan SKILL OVERLAP yang sudah dihitung oleh sistem.
+4. Jika tersedia, WAJIB cantumkan Link lowongan (\texttt{source\_url}) di bagian Action Plan setiap posisi.
 
 [PROFIL ADAPTIF PENGGUNA]
 {user_profile_json}
@@ -753,6 +757,8 @@ LLM (Llama 3.1 8B (4-bit Quantized)) memproses prompt di atas dengan parameter \
 untuk menghasilkan narasi yang dinamis namun tetap terkekang oleh aturan
 \textit{faithfulness constraint} --- mencegah model memberikan saran yang mengawang-awang
 di luar data lowongan nyata dari database.
+
+Selain itu, untuk mencegah terjadinya \textit{cold start} pada Ollama yang dapat menyebabkan \textit{timeout} (lebih dari 120 detik) saat memuat model ke memori pada permintaan pertama, parameter \texttt{"keep\_alive": -1} secara eksplisit disertakan di setiap \textit{payload} inferensi. Pengaturan \textit{timeout} asinkron pada \texttt{httpx.AsyncClient} juga diatur hingga 600 detik (untuk antarmuka percakapan) dan 300 detik (untuk proses ekstraksi memori latar belakang) guna mengakomodasi beban pemrosesan RAG berskala besar.
 
 \paragraph{Tahap 8 --- SSE Streaming ke Client.}
 \textit{Server-Sent Events} (SSE) adalah protokol HTTP standar yang memungkinkan

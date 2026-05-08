@@ -253,7 +253,7 @@ ExecStart=/home/ubuntu/.venv/bin/uvicorn \
     main:app \
     --host 127.0.0.1 \
     --port 8000 \
-    --workers 2 \
+    --workers 1 \
     --loop uvloop \
     --http httptools
 Restart=always
@@ -275,10 +275,12 @@ WantedBy=multi-user.target
     variabel lingkungan sensitif (DATABASE\_URL, CLERK\_SECRET\_KEY) dari file
     \texttt{.env} yang tidak masuk ke version control (\textit{gitignored}).
     Ini adalah praktik keamanan standar (\textit{12-factor app}).
-  \item \textbf{\texttt{--workers 2}:} Menjalankan 2 worker Uvicorn untuk
-    menangani concurrent requests. Lebih dari 2 worker tidak disarankan karena
-    setiap worker memuat model ke memori, dan Ollama sudah menangani
-    \textit{concurrent inference} secara internal.
+  \item \textbf{\texttt{--workers 1}:} Menggunakan 1 worker Uvicorn demi 
+    menjaga stabilitas dan mencegah isu \textit{out-of-memory} (OOM) mengingat
+    sumber daya VPS terbatas (RAM $\sim$16 GB) yang berbagi beban dengan Ollama
+    (Llama 3.1) dan PostgreSQL pgvector. Pendekatan 1 worker diasumsikan cukup untuk
+    kebutuhan sistem berskala \textit{demo} dalam lingkup penelitian ini tanpa perlu
+    menangani pengguna serentak massal.
   \item \textbf{\texttt{--loop uvloop} dan \texttt{--http httptools}:}
     Library C-based yang menggantikan event loop asyncio default Python.
     uvloop 2-4$\times$ lebih cepat dari asyncio default, krusial untuk
