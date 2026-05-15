@@ -184,6 +184,7 @@ export default function AppShell({ active, topbarTitle, topbarRight, children })
         .nn-main {
           margin-left: 68px;
           flex: 1;
+          min-width: 0;
           min-height: 100vh;
           overflow-y: auto;
           display: flex;
@@ -218,8 +219,13 @@ export default function AppShell({ active, topbarTitle, topbarRight, children })
         .nn-canvas {
           padding: 36px 40px;
           display: flex; flex-direction: column;
+          align-items: center;
           gap: 24px;
           max-width: 1100px; width: 100%;
+          margin: 0 auto;
+        }
+        .nn-canvas > * {
+          width: 100%;
         }
 
         /* ── SHARED CARD ── */
