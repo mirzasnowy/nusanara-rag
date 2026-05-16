@@ -9,6 +9,8 @@
  *   - Token akan expire dalam < REFRESH_THRESHOLD detik
  */
 
+import { debug, warn } from './log'
+
 let _cachedToken = null
 let _cachedExp = 0
 
@@ -50,11 +52,11 @@ export async function getCachedToken(getToken) {
 
   // Kembalikan cache jika masih valid dan belum mendekati expire
   if (_cachedToken && _cachedExp > nowSec + REFRESH_THRESHOLD_SEC) {
-    console.debug('[tokenCache] Cache hit, expire dalam', _cachedExp - nowSec, 'detik')
+    debug('[tokenCache] Cache hit, expire dalam', _cachedExp - nowSec, 'detik')
     return _cachedToken
   }
 
-  console.debug('[tokenCache] Fetching token baru dengan template nusanara...')
+  debug('[tokenCache] Fetching token baru dengan template nusanara...')
 
   let token = null
 
@@ -62,9 +64,9 @@ export async function getCachedToken(getToken) {
   if (typeof window !== 'undefined' && window.Clerk?.session) {
     try {
       token = await window.Clerk.session.getToken({ template: 'nusanara' })
-      console.debug('[tokenCache] Token dari window.Clerk.session.getToken')
+      debug('[tokenCache] Token dari window.Clerk.session.getToken')
     } catch (e) {
-      console.warn('[tokenCache] window.Clerk.session.getToken gagal:', e.message)
+      warn('[tokenCache] window.Clerk.session.getToken gagal:', e.message)
     }
   }
 
@@ -72,14 +74,14 @@ export async function getCachedToken(getToken) {
   if (!token && typeof getToken === 'function') {
     try {
       token = await getToken({ template: 'nusanara' })
-      console.debug('[tokenCache] Token dari useAuth().getToken (fallback)')
+      debug('[tokenCache] Token dari useAuth().getToken (fallback)')
     } catch (e) {
-      console.warn('[tokenCache] useAuth getToken gagal:', e.message)
+      warn('[tokenCache] useAuth getToken gagal:', e.message)
     }
   }
 
   if (!token) {
-    console.warn('[tokenCache] Semua metode gagal, token null')
+    warn('[tokenCache] Semua metode gagal, token null')
     return null
   }
 
@@ -89,9 +91,9 @@ export async function getCachedToken(getToken) {
   _cachedToken = token
   _cachedExp = exp || nowSec + 100000
 
-  console.debug(`[tokenCache] Token tersimpan | lifetime: ${lifetime}s | exp: ${new Date(_cachedExp * 1000).toISOString()}`)
+  debug(`[tokenCache] Token tersimpan | lifetime: ${lifetime}s | exp: ${new Date(_cachedExp * 1000).toISOString()}`)
   if (lifetime < 1000) {
-    console.warn('[tokenCache] ⚠️ Lifetime token hanya', lifetime, 'detik — template mungkin belum aktif di Clerk Dashboard')
+    warn('[tokenCache] ⚠️ Lifetime token hanya', lifetime, 'detik — template mungkin belum aktif di Clerk Dashboard')
   }
 
   return _cachedToken
@@ -103,5 +105,5 @@ export async function getCachedToken(getToken) {
 export function clearTokenCache() {
   _cachedToken = null
   _cachedExp = 0
-  console.debug('[tokenCache] Cache dihapus')
+  debug('[tokenCache] Cache dihapus')
 }
