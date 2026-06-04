@@ -10,9 +10,9 @@ import { log, warn, error as logError, isDev } from '../lib/log'
 
 const MAX = 2000
 const SSE_IDLE_TIMEOUT_MS = 30 * 60 * 1000
-const HISTORY_FALLBACK_ATTEMPTS = 60
-const HISTORY_FALLBACK_DELAY_MS = 5000
-const HISTORY_FALLBACK_MESSAGE = 'Koneksi terputus, memuat hasil dari riwayat...'
+const HISTORY_RECOVERY_WAIT_SECONDS = 480
+const HISTORY_RECOVERY_WAIT_MESSAGE = 'Server masih memproses rekomendasi anda, mohon tunggu...'
+const HISTORY_UNAVAILABLE_MESSAGE = 'Rekomendasi belum tersedia, silakan cek halaman Riwayat beberapa saat lagi.'
 
 function sleep(ms) {
   return new Promise(resolve => setTimeout(resolve, ms))
@@ -24,9 +24,10 @@ function getErrorMessage(e) {
   return `${label}${e.message || String(e)}`
 }
 
-function isRecentHistoryItem(item, requestStartedAt) {
-  const createdAt = Date.parse(item?.created_at || '')
-  return Number.isFinite(createdAt) && createdAt >= requestStartedAt - 60000
+function formatCountdown(seconds) {
+  const minutes = Math.floor(seconds / 60)
+  const rest = seconds % 60
+  return `${minutes}:${String(rest).padStart(2, '0')}`
 }
 
 // Heading kanonik untuk format hasil 5 seksi
@@ -120,11 +121,18 @@ export default function RekomendasiPage() {
     }
   }
 
-  async function loadLatestRecommendationFromHistory(beforeCount, requestStartedAt, sourceError) {
+  async function waitBeforeHistoryRecovery() {
+    for (let secondsLeft = HISTORY_RECOVERY_WAIT_SECONDS; secondsLeft > 0; secondsLeft -= 1) {
+      setProgressMsg(`${HISTORY_RECOVERY_WAIT_MESSAGE} ${formatCountdown(secondsLeft)} (${secondsLeft} detik)`)
+      setDebugInfo(prev => ({ ...prev, recoveryCountdown: secondsLeft }))
+      await sleep(1000)
+    }
+  }
+
+  async function loadLatestRecommendationFromHistory(beforeCount, sourceError) {
     const sourceMessage = getErrorMessage(sourceError)
-    warn('[recommend] Stream/fetch terputus, fallback ke /api/history:', sourceMessage)
+    warn('[recommend] Stream/fetch terputus, menunggu sebelum ambil /api/history:', sourceMessage)
     setStreamError('')
-    setProgressMsg(HISTORY_FALLBACK_MESSAGE)
     setDebugInfo(prev => ({
       ...prev,
       fallback: true,
@@ -132,54 +140,49 @@ export default function RekomendasiPage() {
       historyBefore: beforeCount,
     }))
 
-    for (let attempt = 1; attempt <= HISTORY_FALLBACK_ATTEMPTS; attempt += 1) {
-      try {
-        // Ping kecil ke backend: ambil item terbaru sampai hasil yang baru selesai tersimpan.
-        const latest = await getHistory(getToken, { page: 1, limit: 1 })
-        const item = latest.items?.[0]
-        const hasNewHistory = beforeCount == null
-          ? isRecentHistoryItem(item, requestStartedAt) || attempt === HISTORY_FALLBACK_ATTEMPTS
-          : latest.total > beforeCount
+    await waitBeforeHistoryRecovery()
 
-        setDebugInfo(prev => ({
-          ...prev,
-          fallbackAttempt: attempt,
-          historyCount: latest.total,
-          historyBefore: beforeCount,
-        }))
+    try {
+      setProgressMsg('Memuat hasil rekomendasi dari riwayat...')
+      const latest = await getHistory(getToken, { page: 1, limit: 1 })
+      const item = latest.items?.[0]
 
-        if (item && hasNewHistory) {
-          const detail = item.recommendation ? item : await getHistoryDetail(getToken, item.id)
-          if (detail?.recommendation) {
-            setResult(detail.recommendation)
-            setProgressMsg('')
-            setStreamError('')
-            setDebugInfo(prev => ({
-              ...prev,
-              fallbackRecovered: true,
-              historySaved: true,
-              historyId: item.id,
-            }))
-            log('[recommend] Fallback history berhasil. ID:', item.id)
-            return true
-          }
-        }
-      } catch (historyErr) {
-        warn('[recommend] Fallback history belum berhasil:', getErrorMessage(historyErr))
-        setDebugInfo(prev => ({
-          ...prev,
-          fallbackAttempt: attempt,
-          historyError: getErrorMessage(historyErr),
-        }))
+      setDebugInfo(prev => ({
+        ...prev,
+        historyCount: latest.total,
+        historyBefore: beforeCount,
+        recoveryCountdown: 0,
+      }))
+
+      if (!item?.id) {
+        setStreamError(HISTORY_UNAVAILABLE_MESSAGE)
+        return false
       }
 
-      if (attempt < HISTORY_FALLBACK_ATTEMPTS) {
-        await sleep(HISTORY_FALLBACK_DELAY_MS)
+      const detail = await getHistoryDetail(getToken, item.id)
+      if (!detail?.recommendation) {
+        setStreamError(HISTORY_UNAVAILABLE_MESSAGE)
+        return false
       }
+
+      setResult(detail.recommendation)
+      setProgressMsg('')
+      setStreamError('')
+      setDebugInfo(prev => ({
+        ...prev,
+        fallbackRecovered: true,
+        historySaved: true,
+        historyId: item.id,
+      }))
+      log('[recommend] Fallback history berhasil setelah countdown. ID:', item.id)
+      return true
+    } catch (historyErr) {
+      const historyMessage = getErrorMessage(historyErr)
+      warn('[recommend] Fallback history gagal setelah countdown:', historyMessage)
+      setDebugInfo(prev => ({ ...prev, historyError: historyMessage }))
+      setStreamError(HISTORY_UNAVAILABLE_MESSAGE)
+      return false
     }
-
-    warn('[recommend] Fallback history habis percobaan tanpa hasil baru.')
-    return false
   }
 
   async function handleAnalyze() {
@@ -218,7 +221,6 @@ export default function RekomendasiPage() {
       warn('[recommend] Gagal ambil history sebelum request:', e.message)
     }
 
-    const requestStartedAt = Date.now()
     const controller = new AbortController()
     let streamTimeoutId = null
     const refreshStreamTimeout = () => {
@@ -314,11 +316,10 @@ export default function RekomendasiPage() {
         warn('[recommend] ⚠️ Stream selesai TANPA [DONE] signal')
         const recovered = await loadLatestRecommendationFromHistory(
           beforeCount,
-          requestStartedAt,
           new Error('Stream berakhir tanpa sinyal selesai dari server.')
         )
         if (!recovered) {
-          setStreamError('Koneksi terputus dan hasil terbaru belum tersedia di riwayat. Coba buka halaman Riwayat beberapa saat lagi.')
+          setStreamError(HISTORY_UNAVAILABLE_MESSAGE)
         }
       }
       setDebugInfo(prev => ({ ...prev, chunks: chunkCount, doneSignal: doneReceived }))
@@ -327,9 +328,9 @@ export default function RekomendasiPage() {
       const message = getErrorMessage(e)
       logError('[recommend] Error:', message)
       setDebugInfo(prev => ({ ...prev, error: message }))
-      const recovered = await loadLatestRecommendationFromHistory(beforeCount, requestStartedAt, e)
+      const recovered = await loadLatestRecommendationFromHistory(beforeCount, e)
       if (!recovered) {
-        setStreamError('Koneksi terputus dan hasil terbaru belum tersedia di riwayat. Coba buka halaman Riwayat beberapa saat lagi.')
+        setStreamError(HISTORY_UNAVAILABLE_MESSAGE)
       }
     } finally {
       if (streamTimeoutId) clearTimeout(streamTimeoutId)
@@ -340,6 +341,7 @@ export default function RekomendasiPage() {
 
   // Format hasil ke 5 seksi: deteksi heading dengan numbering atau bold
   const sections = useMemo(() => parseSections(result), [result])
+  const historyUnavailable = streamError === HISTORY_UNAVAILABLE_MESSAGE
 
   return (
     <>
@@ -1086,11 +1088,13 @@ export default function RekomendasiPage() {
           {/* ERROR (prominent banner di UI) */}
           {streamError && (
             <div className="rk-error" role="alert" style={{ display: 'flex', alignItems: 'flex-start', gap: 10 }}>
-              <span className="material-symbols-outlined" style={{ fontSize: 18, marginTop: 1 }}>error</span>
+              <span className="material-symbols-outlined" style={{ fontSize: 18, marginTop: 1 }}>{historyUnavailable ? 'schedule' : 'error'}</span>
               <div>
-                <div style={{ fontWeight: 700, marginBottom: 4 }}>Error saat menjalankan rekomendasi</div>
+                <div style={{ fontWeight: 700, marginBottom: 4 }}>{historyUnavailable ? 'Rekomendasi belum tersedia' : 'Error saat menjalankan rekomendasi'}</div>
                 <div style={{ opacity: .9 }}>{streamError}</div>
-                <div style={{ marginTop: 6, fontSize: 11, opacity: .6 }}>Buka DevTools console untuk log lebih detail.</div>
+                {!historyUnavailable && (
+                  <div style={{ marginTop: 6, fontSize: 11, opacity: .6 }}>Buka DevTools console untuk log lebih detail.</div>
+                )}
               </div>
             </div>
           )}
