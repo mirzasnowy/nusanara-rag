@@ -5,10 +5,29 @@ import remarkGfm from 'remark-gfm'
 import { useAuth, useUser } from '@clerk/react'
 import AppShell from '../components/AppShell'
 import { getCachedToken } from '../lib/tokenCache'
-import { getHistory, initProfile } from '../lib/api'
+import { apiUrl, getHistory, getHistoryDetail, initProfile } from '../lib/api'
 import { log, warn, error as logError, isDev } from '../lib/log'
 
 const MAX = 2000
+const SSE_IDLE_TIMEOUT_MS = 30 * 60 * 1000
+const HISTORY_FALLBACK_ATTEMPTS = 60
+const HISTORY_FALLBACK_DELAY_MS = 5000
+const HISTORY_FALLBACK_MESSAGE = 'Koneksi terputus, memuat hasil dari riwayat...'
+
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms))
+}
+
+function getErrorMessage(e) {
+  if (!e) return 'Terjadi kesalahan tak terduga.'
+  const label = e.name && e.name !== 'Error' ? `${e.name}: ` : ''
+  return `${label}${e.message || String(e)}`
+}
+
+function isRecentHistoryItem(item, requestStartedAt) {
+  const createdAt = Date.parse(item?.created_at || '')
+  return Number.isFinite(createdAt) && createdAt >= requestStartedAt - 60000
+}
 
 // Heading kanonik untuk format hasil 5 seksi
 const SECTION_HEADINGS = [
@@ -90,15 +109,77 @@ export default function RekomendasiPage() {
       const res = await getHistory(getToken, { page: 1, limit: 1 })
       const count = res.total
       log(`[recommend] /api/history total: ${count} (sebelumnya ${beforeCount})`)
-      const saved = count > beforeCount
+      const saved = beforeCount == null ? count > 0 : count > beforeCount
       setDebugInfo(prev => ({ ...prev, historyCount: count, historySaved: saved, historyBefore: beforeCount }))
-      if (!saved) {
+      if (beforeCount != null && !saved) {
         warn('[recommend] ⚠️ History TIDAK bertambah — data tidak tersimpan di backend')
       }
     } catch (e) {
       logError('[recommend] Verifikasi history gagal:', e.message)
       setDebugInfo(prev => ({ ...prev, historyError: e.message }))
     }
+  }
+
+  async function loadLatestRecommendationFromHistory(beforeCount, requestStartedAt, sourceError) {
+    const sourceMessage = getErrorMessage(sourceError)
+    warn('[recommend] Stream/fetch terputus, fallback ke /api/history:', sourceMessage)
+    setStreamError('')
+    setProgressMsg(HISTORY_FALLBACK_MESSAGE)
+    setDebugInfo(prev => ({
+      ...prev,
+      fallback: true,
+      fallbackReason: sourceMessage,
+      historyBefore: beforeCount,
+    }))
+
+    for (let attempt = 1; attempt <= HISTORY_FALLBACK_ATTEMPTS; attempt += 1) {
+      try {
+        // Ping kecil ke backend: ambil item terbaru sampai hasil yang baru selesai tersimpan.
+        const latest = await getHistory(getToken, { page: 1, limit: 1 })
+        const item = latest.items?.[0]
+        const hasNewHistory = beforeCount == null
+          ? isRecentHistoryItem(item, requestStartedAt) || attempt === HISTORY_FALLBACK_ATTEMPTS
+          : latest.total > beforeCount
+
+        setDebugInfo(prev => ({
+          ...prev,
+          fallbackAttempt: attempt,
+          historyCount: latest.total,
+          historyBefore: beforeCount,
+        }))
+
+        if (item && hasNewHistory) {
+          const detail = item.recommendation ? item : await getHistoryDetail(getToken, item.id)
+          if (detail?.recommendation) {
+            setResult(detail.recommendation)
+            setProgressMsg('')
+            setStreamError('')
+            setDebugInfo(prev => ({
+              ...prev,
+              fallbackRecovered: true,
+              historySaved: true,
+              historyId: item.id,
+            }))
+            log('[recommend] Fallback history berhasil. ID:', item.id)
+            return true
+          }
+        }
+      } catch (historyErr) {
+        warn('[recommend] Fallback history belum berhasil:', getErrorMessage(historyErr))
+        setDebugInfo(prev => ({
+          ...prev,
+          fallbackAttempt: attempt,
+          historyError: getErrorMessage(historyErr),
+        }))
+      }
+
+      if (attempt < HISTORY_FALLBACK_ATTEMPTS) {
+        await sleep(HISTORY_FALLBACK_DELAY_MS)
+      }
+    }
+
+    warn('[recommend] Fallback history habis percobaan tanpa hasil baru.')
+    return false
   }
 
   async function handleAnalyze() {
@@ -128,7 +209,7 @@ export default function RekomendasiPage() {
     }
 
     // Snapshot jumlah history sebelum request, untuk verifikasi setelah DONE
-    let beforeCount = 0
+    let beforeCount = null
     try {
       const before = await getHistory(getToken, { page: 1, limit: 1 })
       beforeCount = before.total
@@ -137,13 +218,24 @@ export default function RekomendasiPage() {
       warn('[recommend] Gagal ambil history sebelum request:', e.message)
     }
 
+    const requestStartedAt = Date.now()
+    const controller = new AbortController()
+    let streamTimeoutId = null
+    const refreshStreamTimeout = () => {
+      if (streamTimeoutId) clearTimeout(streamTimeoutId)
+      streamTimeoutId = setTimeout(() => {
+        controller.abort(new Error(`SSE idle timeout ${SSE_IDLE_TIMEOUT_MS / 60000} menit`))
+      }, SSE_IDLE_TIMEOUT_MS)
+    }
+
     try {
       const token = await getCachedToken(getToken)
       if (!token) throw new Error('Gagal mendapatkan token autentikasi.')
 
-      const url = `${process.env.NEXT_PUBLIC_API_URL}/api/recommend`
+      const url = apiUrl('/api/recommend')
       log('[recommend] POST /api/recommend | narrative length:', text.length)
 
+      refreshStreamTimeout()
       const res = await fetch(url, {
         method: 'POST',
         headers: {
@@ -151,7 +243,9 @@ export default function RekomendasiPage() {
           Authorization: `Bearer ${token}`,
         },
         body: JSON.stringify({ narrative: text }),
+        signal: controller.signal,
       })
+      refreshStreamTimeout()
 
       log('[recommend] Response status:', res.status, res.statusText)
       setDebugInfo(prev => ({ ...prev, status: res.status }))
@@ -160,6 +254,10 @@ export default function RekomendasiPage() {
         const err = await res.json().catch(() => ({ detail: res.statusText }))
         logError('[recommend] Response NOT OK:', res.status)
         throw new Error(err.detail || `Request gagal (HTTP ${res.status})`)
+      }
+
+      if (!res.body) {
+        throw new Error('Response stream kosong dari server.')
       }
 
       const reader = res.body.getReader()
@@ -172,6 +270,7 @@ export default function RekomendasiPage() {
 
       while (true) {
         const { done, value } = await reader.read()
+        refreshStreamTimeout()
         if (done) {
           log('[recommend] Stream selesai. Chunks:', chunkCount, '| DONE:', doneReceived)
           break
@@ -213,15 +312,27 @@ export default function RekomendasiPage() {
       // Stream berakhir tanpa DONE signal
       if (!doneReceived) {
         warn('[recommend] ⚠️ Stream selesai TANPA [DONE] signal')
-        setStreamError('Stream berakhir tanpa sinyal selesai dari server. Cek log backend.')
+        const recovered = await loadLatestRecommendationFromHistory(
+          beforeCount,
+          requestStartedAt,
+          new Error('Stream berakhir tanpa sinyal selesai dari server.')
+        )
+        if (!recovered) {
+          setStreamError('Koneksi terputus dan hasil terbaru belum tersedia di riwayat. Coba buka halaman Riwayat beberapa saat lagi.')
+        }
       }
       setDebugInfo(prev => ({ ...prev, chunks: chunkCount, doneSignal: doneReceived }))
       setTimeout(() => verifyHistorySaved(beforeCount), 1500)
     } catch (e) {
-      logError('[recommend] Error:', e.message)
-      setStreamError(`${e.name || 'Error'}: ${e.message || 'Terjadi kesalahan tak terduga.'}`)
-      setDebugInfo(prev => ({ ...prev, error: e.message }))
+      const message = getErrorMessage(e)
+      logError('[recommend] Error:', message)
+      setDebugInfo(prev => ({ ...prev, error: message }))
+      const recovered = await loadLatestRecommendationFromHistory(beforeCount, requestStartedAt, e)
+      if (!recovered) {
+        setStreamError('Koneksi terputus dan hasil terbaru belum tersedia di riwayat. Coba buka halaman Riwayat beberapa saat lagi.')
+      }
     } finally {
+      if (streamTimeoutId) clearTimeout(streamTimeoutId)
       setProgressMsg('')
       setLoading(false)
     }
